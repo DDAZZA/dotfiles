@@ -10,6 +10,8 @@ export PATH="$RY_PREFIX/lib/ry/current/bin:$PATH"
 
 alias be='bundle exec'
 alias gi='gem install $1 --no-rdoc --no-ri'
+alias ack='ack-grep'
+alias ll='ls -al'
 
 if [ -f ~/.git-completion.bash ]; then
       . ~/.git-completion.bash
