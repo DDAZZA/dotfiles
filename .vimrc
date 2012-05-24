@@ -35,10 +35,10 @@ endif
 set backupdir=~/.vim/tmp  "Store backups in same dir
 set directory=~/.vim/tmp  "Store swps in same dir
 
-"if has("folding")
-"  set foldmethod=indent
-"  set foldlevel=99
-"endif
+if has("folding")
+  set foldmethod=indent
+  set foldlevel=99
+endif
 
 "mappings
 map <C-t> :NERDTreeToggle <cr>
