@@ -18,3 +18,5 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 source ~/.git-completion.sh
+
+source ~/.bash_extra
