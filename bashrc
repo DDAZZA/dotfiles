@@ -13,6 +13,7 @@ alias be='bundle exec'
 alias gi='gem install $1 --no-rdoc --no-ri'
 # alias ack='ack-grep'
 alias ll='ls -al'
+alias gs='git status'
 
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
