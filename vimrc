@@ -2,6 +2,8 @@ let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 syntax enable
 colorscheme dark-ruby
 set colorcolumn=80
+set cursorcolumn
+set cursorline
 set background=dark
 set tabstop=2
 set shiftwidth=2
@@ -59,6 +61,8 @@ map <F12> :let &mouse=(&mouse == "a"?"":"a")<CR>:call ShowMouseMode()<CR>
 map <leader>b :call SetLineNumbers()<CR> :! clear; echo "git blame "<C-r>%; git blame <C-r>% -L <C-r>x,<C-r>c<cr>
 map <leader>d :! clear; echo "git diff "<C-r>%;git diff <C-r>% <cr>
 
+vmap <F9> :s#\(\<\u\l\+\\|\l\+\)\(\u\)#\l\1_\l\2#g <CR>
+vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
 map <Tab> ==
 
 function ShowMouseMode()
