@@ -29,7 +29,7 @@ hi CursorLine ctermbg=234 term=none cterm=none
 hi clear CursorColumn
 hi CursorColumn ctermbg=234
 hi ColorColumn ctermbg=233
-hi LineNr ctermfg=darkgrey ctermbg=234
+hi LineNr ctermfg=darkgrey ctermbg=233
 " hi Visual term=bold cterm=italic
 
 if has("autocmd")
