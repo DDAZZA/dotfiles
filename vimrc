@@ -38,7 +38,9 @@ if has("autocmd")
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
-  autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
+  autocmd! bufwritepost vimrc source ~/.vimrc
+  autocmd WinLeave * set nocursorline nocursorcolumn
+  autocmd WinEnter * set cursorline cursorcolumn
 endif
 
 set backupdir=~/.vim/tmp  "Store backups in same dir
