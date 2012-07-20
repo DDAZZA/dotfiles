@@ -1,3 +1,5 @@
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+
 syntax enable
 colorscheme dark-ruby
 set colorcolumn=80 "adds a bar at 80 chars wide
