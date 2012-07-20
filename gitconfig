@@ -7,3 +7,6 @@
 [user]
 	name = Dave Elliott
 	email = ddazza@gmail.com
+[alias]
+  co = checkout
+  st = status

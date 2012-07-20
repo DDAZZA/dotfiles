@@ -21,7 +21,6 @@ set laststatus=2 " always show status bar
 " set ruler " is default
 " set laststatus=1 " is default
 "
-
 "custom colors
 set t_Co=256 " set 256 colours
 set background=dark
@@ -37,11 +36,14 @@ if has("autocmd")
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$\|\t\+$/
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  " line is longer than 80 chars
+  " autocmd InsertLeave * match ExtraWhitespace /\%>80v.\+/
   autocmd BufWinLeave * call clearmatches()
-  autocmd! bufwritepost vimrc source ~/.vimrc
   autocmd WinLeave * set nocursorline nocursorcolumn
   autocmd WinEnter * set cursorline cursorcolumn
+  autocmd! bufwritepost .vimrc source ~/.vimrc " reload vim file when its saved
 endif
+
 
 set backupdir=~/.vim/tmp  "Store backups in same dir
 set directory=~/.vim/tmp  "Store swps in same dir
@@ -51,7 +53,7 @@ set directory=~/.vim/tmp  "Store swps in same dir
 "   set foldlevel=99
 " endif
 
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+let g:ackprg="ack -H --nocolor --nogroup --column"
 
 "mappings
 map <C-t> :NERDTreeToggle <cr>
@@ -69,7 +71,7 @@ map <F6> :set wrap!<cr> :echo "Wrap Lines ="&wrap<cr>
 map <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<cr>
 
 " toggle mouse mode
-map <F12> :let &mouse=(&mouse == "a"?"":"a")<CR>:call ShowMouseMode()<CR>
+map <F12> :call ShowMouseMode()<CR>
 
 map <leader>b :call SetLineNumbers()<CR> :! clear; echo "git blame "<C-r>%; git blame <C-r>% -L <C-r>x,<C-r>c<cr>
 map <leader>d :! clear; echo "git diff "<C-r>%;git diff <C-r>% <cr>
@@ -82,7 +84,17 @@ vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
 
 map <Tab> ==
 
-function ShowMouseMode()
+command! -nargs=* Taback :call Taback(<q-args>)
+
+function! Taback(params)
+  echo 'hello'
+  echo params
+  " tabnew
+  " Ack(params)
+endfunction
+
+function! ShowMouseMode()
+  let &mouse=(&mouse == "a"?"":"a")
   if (&mouse == 'a')
     echo "MouseMode On"
   else
@@ -90,7 +102,7 @@ function ShowMouseMode()
   endif
 endfunction
 
-function SetLineNumbers()
+function! SetLineNumbers()
   let @l = line('.')
   let @x = -3 + line('.')
   let @c = 3 + line('.')
