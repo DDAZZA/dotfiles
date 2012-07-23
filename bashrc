@@ -6,6 +6,7 @@ export EDITOR='vim'
 
 alias be='bundle exec'
 alias gs='git status'
+alias gsl='clear; git status'
 alias gi='gem install $1 --no-rdoc --no-ri'
 alias ll='ls -al'
 alias gs='git status'
@@ -15,5 +16,4 @@ if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-alias ssh_preprod='ssh -N -p 22 -c 3des darrenwhiley@10.228.104.10 -L 50001/10.228.104.9/330628.104.9/3306'
 source ~/.bash_extra # extra configuration for specific computer
