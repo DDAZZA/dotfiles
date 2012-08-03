@@ -62,6 +62,7 @@ nmap <leader>nn :set number!<CR>
 
 nmap <F3> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
 nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
+nmap <F7> :! ruby app.rb<CR>
 nmap <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<CR>
 
 " toggle mouse mode
