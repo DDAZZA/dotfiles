@@ -60,6 +60,7 @@ nmap <leader>ss :setlocal spell!<CR> :echo "SpellChecker ="&spell<CR>
 nmap <leader>pp :setlocal paste!<CR> :echo "Paste Mode ="&paste<CR>
 nmap <leader>nn :set number!<CR>
 
+map <F2> :normal orequire 'pry'; binding.pry<ESC>
 nmap <F3> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
 nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
