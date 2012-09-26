@@ -16,12 +16,16 @@ set expandtab
 set number "displays line numbers
 set wildmode=longest,list
 set wildmenu "enable bash <tab><tab> to list dir
+
 set incsearch "show match when typing
+set ignorecase
+set smartcase
 set hlsearch " highlight all search matches
 set autoindent
 filetype plugin indent on
 set scrolloff=2 " scroll 2 lines before edge of screen
 set laststatus=2 " always show status bar
+set wrap! "don't wrap text
 
 "custom colors
 hi ColorColumn ctermbg=black
@@ -39,14 +43,16 @@ if has("autocmd")
   autocmd! bufwritepost .vimrc source ~/.vimrc " reload vim file when its saved
 endif
 
-
+" set undodir=~/.vim/tmp
+" set undofile
 set backupdir=~/.vim/tmp  "Store backups in same dir
 set directory=~/.vim/tmp  "Store swps in same dir
 
-" if has("folding")
-"   set foldmethod=indent
-"   set foldlevel=99
-" endif
+if has("folding")
+  set foldmethod=indent   "fold based on indent
+  set foldnestmax=3       "deepest fold is 3 levels
+  set nofoldenable        "dont fold by default
+endif
 
 
 "mappings
@@ -59,6 +65,7 @@ nmap <leader>desc :Ack "desCRibe " <C-r>%<CR>
 nmap <leader>ss :setlocal spell!<CR> :echo "SpellChecker ="&spell<CR>
 nmap <leader>pp :setlocal paste!<CR> :echo "Paste Mode ="&paste<CR>
 nmap <leader>nn :set number!<CR>
+" map Y :normal yt$<cr>
 
 map <F1> <ESC>
 map <F2> :normal orequire 'pry'; binding.pry<ESC>
