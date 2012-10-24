@@ -41,6 +41,7 @@ if has("autocmd")
   autocmd WinLeave * set nocursorline nocursorcolumn
   autocmd WinEnter * set cursorline cursorcolumn
   autocmd! bufwritepost .vimrc source ~/.vimrc " reload vim file when its saved
+  autocmd BufNewFile,BufRead *.ui set filetype=ruby
 endif
 
 " set undodir=~/.vim/tmp
@@ -71,6 +72,7 @@ map <F1> <ESC>
 map <F2> :normal orequire 'pry'; binding.pry<ESC>
 map § <ESC>
 nmap <F3> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
+nmap <F5> :! !bundle<CR>
 nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
 nmap <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<CR>
