@@ -14,7 +14,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set number "displays line numbers
-set wildmode=longest,list
+set wildmode=list:longest,full
 set wildmenu "enable bash <tab><tab> to list dir
 
 set incsearch "show match when typing
@@ -58,22 +58,22 @@ endif
 
 "mappings
 nmap <C-t> :NERDTreeToggle <CR>
-nmap <S-k> :! <CR>
+nmap <S-k> :!<CR>
 
 nmap <leader>def :Ack "def " <C-r>%<CR>
-nmap <leader>desc :Ack "desCRibe " <C-r>%<CR>
+nmap <leader>desc :Ack "describe " <C-r>%<CR>
 
 nmap <leader>ss :setlocal spell!<CR> :echo "SpellChecker ="&spell<CR>
 nmap <leader>pp :setlocal paste!<CR> :echo "Paste Mode ="&paste<CR>
 nmap <leader>nn :set number!<CR>
-" map Y :normal yt$<cr>
+nnoremap Y y$
 
 map <F1> <ESC>
 map <F2> :normal orequire 'pry'; binding.pry<ESC>
 map § <ESC>
 nmap <F3> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
 nmap <F5> :! !bundle<CR>
-nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
+" nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
 nmap <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<CR>
 
@@ -89,7 +89,11 @@ vmap <F9> :s#\(\<\u\l\+\\|\l\+\)\(\u\)#\l\1_\l\2#g <CR>
 "Convert snake_case string into CamelCase
 vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
 
+" Restart a rails server
+map <silent> <F6> :! pkill -2 -f 'script\/rails s' <cr> :echo 'Restarting rails server...'<cr>
+
 map <Tab> ==
+
 
 command! -nargs=* Taback :call Taback(<q-args>)
 
