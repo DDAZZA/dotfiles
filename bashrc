@@ -5,11 +5,10 @@ export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01;33m\]$(_
 export EDITOR='vim'
 
 alias be='bundle exec'
-alias gs='git status'
-alias gsl='clear; git status'
+alias gs='git status -sb'
+alias gsl='clear; git status -sb'
 alias gi='gem install $1 --no-rdoc --no-ri'
 alias ll='ls -al'
-alias gs='git status'
 alias tmux='tmux -2'
 
 if [ -f ~/.git-completion.bash ]; then

@@ -14,7 +14,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set number "displays line numbers
-set wildmode=list:longest,full
+set wildmode=longest,list
 set wildmenu "enable bash <tab><tab> to list dir
 
 set incsearch "show match when typing
@@ -42,6 +42,7 @@ if has("autocmd")
   autocmd WinEnter * set cursorline cursorcolumn
   autocmd! bufwritepost .vimrc source ~/.vimrc " reload vim file when its saved
   autocmd BufNewFile,BufRead *.ui set filetype=ruby
+  autocmd BufNewFile,BufRead Gemfile set filetype=ruby
 endif
 
 " set undodir=~/.vim/tmp
@@ -68,11 +69,12 @@ nmap <leader>pp :setlocal paste!<CR> :echo "Paste Mode ="&paste<CR>
 nmap <leader>nn :set number!<CR>
 nnoremap Y y$
 
-map <F1> <ESC>
-map <F2> :normal orequire 'pry'; binding.pry<ESC>
+" map <F1> <ESC>
+" map <F2> :normal orequire 'pry'; binding.pry<ESC>
 map § <ESC>
-nmap <F3> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
-nmap <F5> :! !bundle<CR>
+
+nmap <F5> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
+" nmap <F5> :! !bundle<CR>
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
 nmap <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<CR>
@@ -80,19 +82,22 @@ nmap <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<CR>
 " toggle mouse mode
 map <F12> :call ShowMouseMode()<CR>
 
-map <leader>b :call SetLineNumbers()<CR> :! clear; echo "git blame "<C-r>%; git blame <C-r>% -L <C-r>x,<C-r>c<CR>
+map <leader>b :call SetLineNumbers()<CR> :! clear; echo "git blame "<C-r>%; git blame <C-r>% -w -L <C-r>x,<C-r>c<CR>
 map <leader>d :! clear; echo "git diff "<C-r>%;git diff <C-r>% <CR>
 
 "Convert CacmelCase string into snake_case
-vmap <F9> :s#\(\<\u\l\+\\|\l\+\)\(\u\)#\l\1_\l\2#g <CR>
+" vmap <F9> :s#\(\<\u\l\+\\|\l\+\)\(\u\)#\l\1_\l\2#g <CR>
 
 "Convert snake_case string into CamelCase
-vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
+" vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
 
 " Restart a rails server
 map <silent> <F6> :! pkill -2 -f 'script\/rails s' <cr> :echo 'Restarting rails server...'<cr>
 
 map <Tab> ==
+
+map <F7> :mksession! ~/.vim/vim_session <cr> " Quick write session with F2
+map <F9> :source ~/.vim/vim_session <cr>     " And load session with F3
 
 
 command! -nargs=* Taback :call Taback(<q-args>)
