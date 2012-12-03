@@ -16,48 +16,48 @@ CheatSheet
 
 Customised shortcuts
 -----------
-    <table>
-      <tr>
-        <th>Key</th><th>Action</th>
-      </tr>
-      <tr>
-        <td>F1 - F4</td><td>Change window</td>
-      </tr>
-      <tr>
-        <td>F5</td><td>Run Rspec on the current line.</td>
-        </tr>
-      <tr>
-        <td>F8</td><td>Run Rspec on the current file.</td>
-      </tr>
-      <tr>
-        <td>Ctrl-T</td><td>Toggle NERDTree.</td>
-      </tr>
-      <tr>
-        <td>Shift-K</td><td>Look behind VIm.</td>
-      </tr>
-    </table>
+<table>
+<tr>
+<th>Key</th><th>Action</th>
+</tr>
+<tr>
+<td>F1 - F4</td><td>Change window</td>
+</tr>
+<tr>
+<td>F5</td><td>Run Rspec on the current line.</td>
+</tr>
+<tr>
+<td>F8</td><td>Run Rspec on the current file.</td>
+</tr>
+<tr>
+<td>Ctrl-T</td><td>Toggle NERDTree.</td>
+</tr>
+<tr>
+<td>Shift-K</td><td>Look behind VIm.</td>
+</tr>
+</table>
 
 Useful VIm shortcuts
 -----------
-    <table>
-      <tr>
-        <th>Key</th><th>Action</th>
-      </tr>
-      <tr>
-        <th>gt</th><th>Next Tab</th>
-      </tr>
-    </table>
+<table>
+<tr>
+<th>Key</th><th>Action</th>
+</tr>
+<tr>
+<th>gt</th><th>Next Tab</th>
+</tr>
+</table>
 
 Useful Tmux shortcuts
 -----------
-    <table>
-      <tr>
-        <th>Key</th><th>Action</th>
-      </tr>
-      <tr>
-        <th>Ctrl-a</th><th>Tmux Prefix</th>
-      </tr>
-      <tr>
-        <th>Prefix c</th><th>Create new window</th>
-      </tr>
-    </table>
+<table>
+<tr>
+<th>Key</th><th>Action</th>
+</tr>
+<tr>
+<th>Ctrl-a</th><th>Tmux Prefix</th>
+</tr>
+<tr>
+<th>Prefix c</th><th>Create new window</th>
+</tr>
+</table>
