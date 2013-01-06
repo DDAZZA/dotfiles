@@ -35,8 +35,6 @@ if has("autocmd")
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$\|\t\+$/
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-  " line is longer than 80 chars
-  " autocmd InsertLeave * match ExtraWhitespace /\%>80v.\+/
   autocmd BufWinLeave * call clearmatches()
   autocmd WinLeave * set nocursorline nocursorcolumn
   autocmd WinEnter * set cursorline cursorcolumn
@@ -45,8 +43,6 @@ if has("autocmd")
   autocmd BufNewFile,BufRead Gemfile set filetype=ruby
 endif
 
-" set undodir=~/.vim/tmp
-" set undofile
 set backupdir=~/.vim/tmp  "Store backups in same dir
 set directory=~/.vim/tmp  "Store swps in same dir
 
@@ -56,34 +52,34 @@ if has("folding")
   set nofoldenable        "dont fold by default
 endif
 
-
 "mappings
-nmap <C-t> :NERDTreeToggle <CR>
+let mapleader=","
+nmap \ ,
+
+nmap <C-t> :NERDTreeToggle<CR>
 nmap <S-k> :!<CR>
 
+nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>
+nmap <leader>b :call GitBlame()<CR>
 nmap <leader>def :Ack "def " <C-r>%<CR>
 nmap <leader>desc :Ack "describe " <C-r>%<CR>
-
-nmap <leader>ss :setlocal spell!<CR> :echo "SpellChecker ="&spell<CR>
-nmap <leader>pp :setlocal paste!<CR> :echo "Paste Mode ="&paste<CR>
+nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
+nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
+nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
+nmap <leader>tf :call TestFile()<CR>
+nmap <leader>tl :call TestLine()<CR>
 nnoremap Y y$
 
+
 " map <F1> <ESC>
-" map <F2> :normal orequire 'pry'; binding.pry<ESC>
 map § <ESC>
 
-nmap <F5> :call SetLineNumbers()<CR> :! clear; echo "Testing:" <C-r>% "Line:" <C-r>l; bundle exec rspec <C-r>% -l <C-r>l<CR>
-" nmap <F5> :! !bundle<CR>
+nmap <F5> :call TestLine()<CR>
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
-nmap <F8> :! clear; echo "Testing file:" <C-r>%;bundle exec rspec <C-r>%<CR>
-
-" toggle mouse mode
-map <F12> :call ShowMouseMode()<CR>
-
-map <leader>b :call SetLineNumbers()<CR> :! clear; echo "git blame "<C-r>%; git blame <C-r>% -w -L <C-r>x,<C-r>c<CR>
-map <leader>d :! clear; echo "git diff "<C-r>%;git diff <C-r>% <CR>
+nmap <F8> :call TestFile()<CR>
+map <F12> :call ToggleMouseMode()<CR>
 
 "Convert CacmelCase string into snake_case
 " vmap <F9> :s#\(\<\u\l\+\\|\l\+\)\(\u\)#\l\1_\l\2#g <CR>
@@ -92,34 +88,53 @@ map <leader>d :! clear; echo "git diff "<C-r>%;git diff <C-r>% <CR>
 " vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
 
 " Restart a rails server
-map <silent> <F6> :! pkill -2 -f 'script\/rails s' <cr> :echo 'Restarting rails server...'<cr>
+" map <silent> <F6> :! pkill -2 -f 'script\/rails s' <cr> :echo 'Restarting rails server...'<cr>
 
 map <Tab> ==
 
-map <F7> :mksession! ~/.vim/vim_session <cr> " Quick write session with F2
-map <F9> :source ~/.vim/vim_session <cr>     " And load session with F3
 
-
-command! -nargs=* Taback :call Taback(<q-args>)
-
-function! Taback(params)
-  echo 'hello'
-  echo params
-  " tabnew
-  " Ack(params)
+command! SaveSession :call SaveSession()
+function! SaveSession()
+  mksession! ~/.vim/vim_session
 endfunction
 
-function! ShowMouseMode()
+command! LoadSession :call LoadSession()
+function! LoadSession()
+  source ~/.vim/vim_session
+endfunction
+
+function! TestFile()
+  let l:command = "bundle exec rspec " . @%
+  call ExecCmd(l:command)
+endfunction
+
+function! TestLine()
+  let l:command = "bundle exec rspec " . @% . " -l " . line(".") . " -f documentation"
+  call ExecCmd(l:command)
+endfunction
+
+function! GitBlame()
+  let l:p = -3 + line('.')
+  let l:n = 3 + line('.')
+  let l:command = "git blame " . @% . " -w -L " . l:p . "," . l:n
+  call ExecCmd(l:command)
+endfunction
+
+function! ExecCmd(command)
+  execute "!clear && echo " . a:command . " && echo && " . a:command
+endfunction
+
+command! -nargs=* Taback :call Taback(<q-args>)
+function! Taback(params)
+  tabnew
+  call Ack(a:params)
+endfunction
+
+function! ToggleMouseMode()
   let &mouse=(&mouse == "a"?"":"a")
   if (&mouse == 'a')
     echo "MouseMode On"
   else
     echo "MouseMode Off"
   endif
-endfunction
-
-function! SetLineNumbers()
-  let @l = line('.')
-  let @x = -3 + line('.')
-  let @c = 3 + line('.')
 endfunction
