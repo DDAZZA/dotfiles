@@ -2,13 +2,16 @@ let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 let g:ackprg="ack -H --nocolor --nogroup --column"
 
 syntax enable
+
+"custom colors
 set t_Co=256 " set 256 colours
 colorscheme wombat256mod
-
-set colorcolumn=80 "adds a bar at 80 chars wide
-
+hi ColorColumn ctermbg=black
 set cursorcolumn " displays a column where the carat is
 set cursorline " displays a line under the current row the caret is on
+
+set colorcolumn=80 "adds a bar at 80 chars
+
 
 set tabstop=2
 set shiftwidth=2
@@ -16,7 +19,6 @@ set expandtab
 set number "displays line numbers
 set wildmode=longest,list
 set wildmenu "enable bash <tab><tab> to list dir
-
 set incsearch "show match when typing
 set ignorecase
 set smartcase
@@ -27,8 +29,6 @@ set scrolloff=2 " scroll 2 lines before edge of screen
 set laststatus=2 " always show status bar
 set wrap! "don't wrap text
 
-"custom colors
-hi ColorColumn ctermbg=black
 
 if has("autocmd")
   hi ExtraWhitespace ctermbg=red
@@ -58,7 +58,6 @@ nmap \ ,
 
 nmap <C-t> :NERDTreeToggle<CR>
 nmap <S-k> :!<CR>
-
 nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>
 nmap <leader>b :call GitBlame()<CR>
 nmap <leader>def :Ack "def " <C-r>%<CR>
