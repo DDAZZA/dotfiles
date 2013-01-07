@@ -69,11 +69,17 @@ nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
 nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
 nmap <leader>tf :call TestFile()<CR>
 nmap <leader>tl :call TestLine()<CR>
+map <leader>b :call SetLineNumbers()<CR> :! clear; echo "git blame "<C-r>%; git blame <C-r>% -w -L <C-r>x,<C-r>c<CR>
+map <leader>d :! clear; echo "git diff "<C-r>%;git diff <C-r>% <CR>
+nmap <leader>pry :normal orequire 'pry'; binding.pry<CR>
+
 nnoremap Y y$
 
 
 " map <F1> <ESC>
-map § <ESC>
+" map <F2> :normal orequire 'pry'; binding.pry<ESC>
+imap § <ESC>
+" imap <F1><ESC>
 
 nmap <F5> :call TestLine()<CR>
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>

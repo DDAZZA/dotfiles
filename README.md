@@ -11,7 +11,7 @@ Run the following commands to setup the dot files.  All current dot files will b
 
 The install script creates links from the home directory to the files/folders in the dotfiles directory.
 
-CheatSheet
+Basic Cheat Sheet
 ============
 
 Customised shortcuts
