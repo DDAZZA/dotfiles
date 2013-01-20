@@ -6,9 +6,7 @@ set t_Co=256 " set 256 colours
 colorscheme wombat256mod
 
 set colorcolumn=80 "adds a bar at 80 chars wide
-
-set cursorcolumn " displays a column where the carat is
-set cursorline " displays a line under the current row the caret is on
+hi ColorColumn ctermbg=black
 
 set tabstop=2
 set shiftwidth=2
@@ -19,7 +17,6 @@ set wildmenu "enable bash <tab><tab> to list dir
 
 set incsearch "show match when typing
 set ignorecase
-set smartcase
 set hlsearch " highlight all search matches
 set autoindent
 filetype plugin indent on
@@ -27,20 +24,21 @@ set scrolloff=2 " scroll 2 lines before edge of screen
 set laststatus=2 " always show status bar
 set wrap! "don't wrap text
 
-"custom colors
-hi ColorColumn ctermbg=black
-
 if has("autocmd")
   hi ExtraWhitespace ctermbg=red
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$\|\t\+$/
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
+
+  set cursorcolumn " displays a column where the carat is
+  set cursorline " displays a line under the current row the caret is on
   autocmd WinLeave * set nocursorline nocursorcolumn
   autocmd WinEnter * set cursorline cursorcolumn
-  autocmd! bufwritepost .vimrc source ~/.vimrc " reload vim file when its saved
+
+  autocmd! BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
   autocmd BufNewFile,BufRead *.ui set filetype=ruby
-  autocmd BufNewFile,BufRead Gemfile set filetype=ruby
+  autocmd BufNewFile,BufRead  Gemfile set filetype=ruby
 endif
 
 set backupdir=~/.vim/tmp  "Store backups in same dir
@@ -53,10 +51,11 @@ if has("folding")
 endif
 
 "mappings
-let mapleader=","
-nmap \ ,
+nmap , \
 
-nmap <C-t> :NERDTreeToggle<CR>
+map <Tab> ==
+imap <Tab> <C-p>
+imap § <ESC>
 nmap <S-k> :!<CR>
 
 nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>
@@ -68,30 +67,12 @@ nmap <leader>nn :set number!<CR>
 nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
 nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
 nmap <leader>tf :call TestFile()<CR>
-nmap <leader>tl :call TestLine()<CR>
-nnoremap Y y$
+nmap <leader>tt :call TestLine()<CR>
 
 
-" map <F1> <ESC>
-map § <ESC>
-
-nmap <F5> :call TestLine()<CR>
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
-nmap <F8> :call TestFile()<CR>
 map <F12> :call ToggleMouseMode()<CR>
-
-"Convert CacmelCase string into snake_case
-" vmap <F9> :s#\(\<\u\l\+\\|\l\+\)\(\u\)#\l\1_\l\2#g <CR>
-
-"Convert snake_case string into CamelCase
-" vmap <F10> :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g <CR>
-
-" Restart a rails server
-" map <silent> <F6> :! pkill -2 -f 'script\/rails s' <cr> :echo 'Restarting rails server...'<cr>
-
-map <Tab> ==
-
 
 command! SaveSession :call SaveSession()
 function! SaveSession()

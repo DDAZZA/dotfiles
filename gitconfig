@@ -3,7 +3,7 @@
 	status = auto
 	branch = auto
 [core]
-	editor = vim
+	editor = vi
 [user]
 	name = Dave Elliott
 	email = ddazza@gmail.com
