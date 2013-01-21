@@ -61,7 +61,7 @@ map <Tab> ==
 imap <Tab> <C-p>
 imap § <ESC>
 nmap <S-k> :!<CR>
-nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>
+nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>==
 nmap <leader>b :call GitBlame()<CR>
 nmap <leader>def :Ack "def " <C-r>%<CR>
 nmap <leader>desc :Ack "describe " <C-r>%<CR>
