@@ -10,9 +10,6 @@ colorscheme wombat256mod
 set colorcolumn=80 "adds a bar at 80 chars wide
 hi ColorColumn ctermbg=black
 
-set colorcolumn=80 "adds a bar at 80 chars
-
-
 set tabstop=2
 set shiftwidth=2
 set expandtab
