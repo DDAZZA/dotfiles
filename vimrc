@@ -68,6 +68,7 @@ nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
 nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
 nmap <leader>tf :call TestFile()<CR>
 nmap <leader>tt :call TestLine()<CR>
+nmap <leader>lc :call LatexCompile()<CR>
 
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
@@ -78,9 +79,10 @@ function! SaveSession()
   mksession! ~/.vim/vim_session
 endfunction
 
-command! LoadSession :call LoadSession()
-function! LoadSession()
-  source ~/.vim/vim_session
+command! LatexCompile :call LatexCompile()
+function! LatexCompile()
+  let l:command = "pdflatex " . @%
+  call ExecCmd(l:command)
 endfunction
 
 function! TestFile()
