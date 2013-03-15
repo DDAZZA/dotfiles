@@ -6,7 +6,6 @@ syntax enable
 set t_Co=256 " set 256 colours
 colorscheme wombat256mod
 set colorcolumn=80 "adds a bar at 80 chars wide
-
 hi ColorColumn ctermbg=black
 
 set tabstop=2
@@ -71,6 +70,7 @@ nmap <leader>gb :call GitBlame()<CR>
 nmap <leader>tf :call TestFile()<CR>
 nmap <leader>tt :call TestLine()<CR>
 nmap <leader>tl :call TestLast()<CR>
+nmap <leader>lc :call LatexCompile()<CR>
 
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
@@ -81,9 +81,10 @@ function! SaveSession()
   mksession! ~/.vim/vim_session
 endfunction
 
-command! LoadSession :call LoadSession()
-function! LoadSession()
-  source ~/.vim/vim_session
+command! LatexCompile :call LatexCompile()
+function! LatexCompile()
+  let l:command = "pdflatex " . @%
+  call ExecCmd(l:command)
 endfunction
 
 function! TestFile()
