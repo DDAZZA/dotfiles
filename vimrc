@@ -1,17 +1,13 @@
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 let g:ackprg="ack -H --nocolor --nogroup --column"
+" let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 syntax enable
 
-"custom colors
 set t_Co=256 " set 256 colours
 colorscheme wombat256mod
-
 set colorcolumn=80 "adds a bar at 80 chars wide
+
 hi ColorColumn ctermbg=black
-
-set colorcolumn=80 "adds a bar at 80 chars
-
 
 set tabstop=2
 set shiftwidth=2
@@ -20,13 +16,14 @@ set number "displays line numbers
 set wildmode=longest,list
 set wildmenu "enable bash <tab><tab> to list dir
 set incsearch "show match when typing
-set ignorecase
+" set ignorecase
 set hlsearch " highlight all search matches
 set autoindent
 filetype plugin indent on
 set scrolloff=2 " scroll 2 lines before edge of screen
 set laststatus=2 " always show status bar
 set wrap! "don't wrap text
+set completeopt=
 
 if has("autocmd")
   hi ExtraWhitespace ctermbg=red
@@ -58,19 +55,22 @@ endif
 nmap , \
 
 map <Tab> ==
-imap <Tab> <C-p>
 imap § <ESC>
 nmap <S-k> :!<CR>
+
 nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>==
-nmap <leader>b :call GitBlame()<CR>
 nmap <leader>def :Ack "def " <C-r>%<CR>
 nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
 nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
 nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
+
+nmap <leader>gs :call GitStatus()<CR>
+nmap <leader>gb :call GitBlame()<CR>
 nmap <leader>tf :call TestFile()<CR>
 nmap <leader>tt :call TestLine()<CR>
+nmap <leader>tl :call TestLast()<CR>
 
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
@@ -87,13 +87,19 @@ function! LoadSession()
 endfunction
 
 function! TestFile()
-  let l:command = "bundle exec rspec " . @%
-  call ExecCmd(l:command)
+  let w:command = "bundle exec rspec --profile " . @%
+  " let w:command = "zeus rspec --profile " . @%
+  call ExecCmd(w:command)
 endfunction
 
 function! TestLine()
-  let l:command = "bundle exec rspec " . @% . " -l " . line(".") . " -f documentation"
-  call ExecCmd(l:command)
+  let w:command = "bundle exec rspec --profile " . @% . " -l " . line(".") . " -f documentation"
+  " let w:command = "zeus rspec --profile " . @% . ":" . line(".") . ""
+  call ExecCmd(w:command)
+endfunction
+
+function! TestLast()
+  call ExecCmd(w:command)
 endfunction
 
 function! GitBlame()
@@ -103,8 +109,14 @@ function! GitBlame()
   call ExecCmd(l:command)
 endfunction
 
+function! GitStatus()
+  let l:command = "git status"
+  call ExecCmd(l:command)
+endfunction
+
 function! ExecCmd(command)
-  execute "!clear && echo " . a:command . " && echo && " . a:command
+  silent !clear
+  execute "!echo " . a:command . " && " . a:command
 endfunction
 
 command! -nargs=* Taback :call Taback(<q-args>)
