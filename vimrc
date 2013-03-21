@@ -81,6 +81,11 @@ function! SaveSession()
   mksession! ~/.vim/vim_session
 endfunction
 
+command! LoadSession :call LoadSession()
+function! LoadSession()
+  source ~/.vim/vim_session
+endfunction
+
 command! LatexCompile :call LatexCompile()
 function! LatexCompile()
   let l:command = "pdflatex " . @%
