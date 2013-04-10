@@ -15,4 +15,7 @@ if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-source ~/.bash_extra # extra configuration for specific computer
+if [ -f ~/.bash_extra ];
+then
+  source ~/.bash_extra # extra configuration for specific computer
+fi
