@@ -1,5 +1,8 @@
-let g:ackprg="ack -H --nocolor --nogroup --column"
-" let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+if system("command -v ack") != ''
+  let g:ackprg="ack -H --nocolor --nogroup --column"
+else
+  let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+endif
 
 syntax enable
 
@@ -93,14 +96,20 @@ function! LatexCompile()
 endfunction
 
 function! TestFile()
-  let w:command = "bundle exec rspec --profile " . @%
-  " let w:command = "zeus rspec --profile " . @%
+  if system("pgrep zeus") != ''
+    let w:command = "zeus rspec --profile " . @%
+  else
+    let w:command = "bundle exec rspec --profile " . @%
+  endif
   call ExecCmd(w:command)
 endfunction
 
 function! TestLine()
-  let w:command = "bundle exec rspec --profile " . @% . " -l " . line(".") . " -f documentation"
-  " let w:command = "zeus rspec --profile " . @% . ":" . line(".") . ""
+  if system("pgrep zeus") != ''
+    let w:command = "zeus rspec --profile " . @%
+  else
+    let w:command = "bundle exec rspec --profile " . @% . " -l " . line(".") . " -f documentation"
+  endif
   call ExecCmd(w:command)
 endfunction
 

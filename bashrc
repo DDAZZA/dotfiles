@@ -1,6 +1,7 @@
 export GIT_PS1_SHOWDIRTYSTATE=true
 
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01;33m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
+export MYSQL_PS1="\u@\h [\d]> "
 
 export EDITOR='vim'
 
