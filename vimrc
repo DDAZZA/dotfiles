@@ -23,9 +23,9 @@ set hlsearch " highlight all search matches
 set autoindent
 filetype plugin indent on
 set scrolloff=2 " scroll 2 lines before edge of screen
-set laststatus=2 " always show status bar
+set ttyfast
 set wrap! "don't wrap text
-set completeopt=
+set laststatus=2
 
 if has("autocmd")
   hi ExtraWhitespace ctermbg=red
@@ -47,11 +47,11 @@ endif
 set backupdir=~/.vim/tmp  "Store backups in same dir
 set directory=~/.vim/tmp  "Store swps in same dir
 
-if has("folding")
-  set foldmethod=indent   "fold based on indent
-  set foldnestmax=3       "deepest fold is 3 levels
-  set nofoldenable        "dont fold by default
-endif
+" if has("folding")
+"   set foldmethod=indent   "fold based on indent
+"   set foldnestmax=3       "deepest fold is 3 levels
+"   set nofoldenable        "dont fold by default
+" endif
 
 "mappings
 nmap , \
