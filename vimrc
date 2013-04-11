@@ -1,5 +1,8 @@
-let g:ackprg="ack -H --nocolor --nogroup --column"
-" let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+if system("command -v ack") != ''
+  let g:ackprg="ack -H --nocolor --nogroup --column"
+else
+  let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+endif
 
 syntax enable
 
@@ -58,7 +61,7 @@ imap § <ESC>
 nmap <S-k> :!<CR>
 
 nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>==
-nmap <leader>def :Ack "def " <C-r>%<CR>
+nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
 nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
@@ -93,14 +96,20 @@ function! LatexCompile()
 endfunction
 
 function! TestFile()
-  let w:command = "bundle exec rspec --profile " . @%
-  " let w:command = "zeus rspec --profile " . @%
+  if system("pgrep zeus") != ''
+    let w:command = "zeus rspec --profile " . @%
+  else
+    let w:command = "bundle exec rspec --profile " . @%
+  endif
   call ExecCmd(w:command)
 endfunction
 
 function! TestLine()
-  let w:command = "bundle exec rspec --profile " . @% . " -l " . line(".") . " -f documentation"
-  " let w:command = "zeus rspec --profile " . @% . ":" . line(".") . ""
+  if system("pgrep zeus") != ''
+    let w:command = "zeus rspec --profile " . @%
+  else
+    let w:command = "bundle exec rspec --profile " . @% . " -l " . line(".") . " -f documentation"
+  endif
   call ExecCmd(w:command)
 endfunction
 
