@@ -61,7 +61,7 @@ imap § <ESC>
 nmap <S-k> :!<CR>
 
 nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>==
-nmap <leader>def :Ack "def " <C-r>%<CR>
+nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
 nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
