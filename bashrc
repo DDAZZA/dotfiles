@@ -8,7 +8,6 @@ export EDITOR='vim'
 alias be='bundle exec'
 alias gs='git status -sb'
 alias gsl='clear; git status -sb'
-alias gi='gem install $1 --no-rdoc --no-ri'
 alias ll='ls -al'
 alias tmux='tmux -2'
 
