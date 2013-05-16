@@ -4,6 +4,7 @@
 	branch = auto
 [core]
 	editor = vi
+	autocrlf = input
 [user]
 	name = Dave Elliott
 	email = ddazza@gmail.com
