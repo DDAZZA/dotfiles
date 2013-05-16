@@ -96,20 +96,26 @@ function! LatexCompile()
 endfunction
 
 function! TestFile()
+  let l:command = "rspec --profile " . @%
+
   if system("pgrep zeus") != ''
-    let w:command = "zeus rspec --profile " . @%
+    let w:command = "zeus " . l:command
   else
-    let w:command = "bundle exec rspec --profile " . @%
+    let w:command = "bundle exec " . l:command
   endif
+
   call ExecCmd(w:command)
 endfunction
 
 function! TestLine()
+  let l:command =  "rspec --profile -f documentation -l " . line(".") . ' ' . @%
+
   if system("pgrep zeus") != ''
-    let w:command = "zeus rspec --profile " . @%
+    let w:command =  "zeus " . l:command
   else
-    let w:command = "bundle exec rspec --profile " . @% . " -l " . line(".") . " -f documentation"
+    let w:command = "bundle exec " . l:command
   endif
+
   call ExecCmd(w:command)
 endfunction
 
@@ -147,4 +153,10 @@ function! ToggleMouseMode()
   else
     echo "MouseMode Off"
   endif
+endfunction
+
+command! JasmineCompile :call JasmineCompile()
+function! JasmineCompile()
+  let l:command = "bundle exec rake sop_ui:jasmine_compile_template[" . expand('%:t:r') . "]"
+  call ExecCmd(l:command)
 endfunction
