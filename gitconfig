@@ -2,6 +2,7 @@
 	diff = auto
 	status = auto
 	branch = auto
+  grep = auto
 [core]
 	editor = vi
 [user]
@@ -10,3 +11,4 @@
 [alias]
   co = checkout
   st = status
+	g = grep --break --heading --line-number
