@@ -1,9 +1,3 @@
-if system("command -v ack") != ''
-  let g:ackprg="ack -H --nocolor --nogroup --column"
-else
-  let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-endif
-
 syntax enable
 
 set t_Co=256 " set 256 colours
@@ -23,9 +17,9 @@ set hlsearch " highlight all search matches
 set autoindent
 filetype plugin indent on
 set scrolloff=2 " scroll 2 lines before edge of screen
-set ttyfast
 set wrap! "don't wrap text
-set laststatus=2
+set laststatus=2 "always show status bar
+set timeoutlen=500
 
 if has("autocmd")
   hi ExtraWhitespace ctermbg=red
@@ -47,16 +41,10 @@ endif
 set backupdir=~/.vim/tmp  "Store backups in same dir
 set directory=~/.vim/tmp  "Store swps in same dir
 
-" if has("folding")
-"   set foldmethod=indent   "fold based on indent
-"   set foldnestmax=3       "deepest fold is 3 levels
-"   set nofoldenable        "dont fold by default
-" endif
+"map leader to , and \
+map , \
 
 "mappings
-nmap , \
-
-map <Tab> ==
 imap § <ESC>
 nmap <S-k> :!<CR>
 
@@ -159,4 +147,15 @@ command! JasmineCompile :call JasmineCompile()
 function! JasmineCompile()
   let l:command = "bundle exec rake sop_ui:jasmine_compile_template[" . expand('%:t:r') . "]"
   call ExecCmd(l:command)
+endfunction
+
+command! RenameFile :call RenameFile()
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
 endfunction
