@@ -1,3 +1,6 @@
+" apparently speeds up vim viewing using ruby code
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
+
 syntax enable
 
 set t_Co=256 " set 256 colours
@@ -56,58 +59,42 @@ nmap <leader>nn :set number!<CR>
 nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
 nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
 
-nmap <leader>gs :call GitStatus()<CR>
 nmap <leader>gb :call GitBlame()<CR>
-nmap <leader>tf :call TestFile()<CR>
+
+" Show git status
+nmap <leader>gs :call ExecCmd("git status")<CR>
+
+" Run test on the whole file
+nmap <leader>tf :call RunTest(@%)<CR>
+
+" Run tests on the current line
 nmap <leader>tt :call TestLine()<CR>
-nmap <leader>tl :call TestLast()<CR>
+
+" Run the last test again
+nmap <leader>tl :call ExecCmd(w:command)<CR>
+
 nmap <leader>lc :call LatexCompile()<CR>
 
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
 map <F12> :call ToggleMouseMode()<CR>
 
-command! SaveSession :call SaveSession()
-function! SaveSession()
-  mksession! ~/.vim/vim_session
-endfunction
+" Save the current open windows
+command! SaveSession mksession! ~/.vim/vim_session
 
-command! LoadSession :call LoadSession()
-function! LoadSession()
-  source ~/.vim/vim_session
-endfunction
+" Load the last saved session
+command! LoadSession source ~/.vim/vim_session
 
-command! LatexCompile :call LatexCompile()
-function! LatexCompile()
-  let l:command = "pdflatex " . @%
-  call ExecCmd(l:command)
-endfunction
-
-function! TestFile()
-  let l:command = "rspec --profile " . @%
-
-  if system("pgrep zeus") != ''
-    let w:command = "zeus " . l:command
-  else
-    let w:command = "bundle exec " . l:command
-  endif
-
-  call ExecCmd(w:command)
-endfunction
+command! LatexCompile :call ExecCmd("pdflatex " . @%)<CR>
 
 function! TestLine()
-  let l:command =  "rspec --profile -f documentation -l " . line(".") . ' ' . @%
-
-  if system("pgrep zeus") != ''
-    let w:command =  "zeus " . l:command
-  else
-    let w:command = "bundle exec " . l:command
-  endif
-
-  call ExecCmd(w:command)
+  let l:command =  "-f documentation -l " . line(".") . ' ' . @%
+  call RunTest(l:command)
 endfunction
 
-function! TestLast()
+function! RunTest(command)
+  let w:command = (system("pgrep zeus") != '') ? "zeus " : "bundle exec "
+  let w:command .= 'rspec --profile ' . a:command
   call ExecCmd(w:command)
 endfunction
 
@@ -115,11 +102,6 @@ function! GitBlame()
   let l:p = -3 + line('.')
   let l:n = 3 + line('.')
   let l:command = "git blame " . @% . " -w -L " . l:p . "," . l:n
-  call ExecCmd(l:command)
-endfunction
-
-function! GitStatus()
-  let l:command = "git status"
   call ExecCmd(l:command)
 endfunction
 
@@ -136,11 +118,7 @@ endfunction
 
 function! ToggleMouseMode()
   let &mouse=(&mouse == "a"?"":"a")
-  if (&mouse == 'a')
-    echo "MouseMode On"
-  else
-    echo "MouseMode Off"
-  endif
+  echo (&mouse == 'a') ? "MouseMode On" : "MouseMode Off"
 endfunction
 
 command! JasmineCompile :call JasmineCompile()
