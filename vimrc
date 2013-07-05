@@ -3,49 +3,54 @@ let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 syntax enable
 
-set t_Co=256 " set 256 colours
+set t_Co=256 " Set 256 colours
 colorscheme wombat256mod
-set colorcolumn=80 "adds a bar at 80 chars wide
-hi ColorColumn ctermbg=black
+set colorcolumn=80 " Add bar at 80 chars wide
+highlight ColorColumn ctermbg=black
 
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set number "displays line numbers
+
+set number " Displays line numbers
 set wildmode=longest,list
-set wildmenu "enable bash <tab><tab> to list dir
-set incsearch "show match when typing
-" set ignorecase
-set hlsearch " highlight all search matches
+set wildmenu " Enable bash <tab><tab> to list dir
+
+set incsearch " Show match when typing
+set hlsearch " Highlight all search matches
+
 set autoindent
 filetype plugin indent on
-set scrolloff=2 " scroll 2 lines before edge of screen
-set wrap! "don't wrap text
-set laststatus=2 "always show status bar
+
+set scrolloff=2 " Scroll 2 lines before edge of screen
+set nowrap " Don't wrap text
+set laststatus=2 " Always show status bar
+set lazyredraw  " Dont redraw between marcos
 set timeoutlen=500
 
 if has("autocmd")
-  hi ExtraWhitespace ctermbg=red
+  highlight ExtraWhitespace ctermbg=red
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$\|\t\+$/
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
 
-  set cursorcolumn " displays a column where the carat is
-  set cursorline " displays a line under the current row the caret is on
-  autocmd WinLeave * set nocursorline nocursorcolumn
-  autocmd WinEnter * set cursorline cursorcolumn
+  " set cursorcolumn " Displays a column where the carat is
+  " set cursorline " Displays a line under the current row the caret is on
+  " autocmd WinLeave * set nocursorline nocursorcolumn
+  " autocmd WinEnter * set cursorline cursorcolumn
 
   autocmd! BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
   autocmd BufNewFile,BufRead *.ui set filetype=ruby
   autocmd BufNewFile,BufRead  Gemfile set filetype=ruby
 endif
 
-set backupdir=~/.vim/tmp  "Store backups in same dir
-set directory=~/.vim/tmp  "Store swps in same dir
+set backupdir=~/.vim/tmp  " Store backups in same dir
+set directory=~/.vim/tmp  " Store swps in same dir
 
 "map leader to , and \
 map , \
+nnoremap Y y$
 
 "mappings
 imap § <ESC>
