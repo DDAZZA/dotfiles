@@ -1,32 +1,31 @@
-" apparently speeds up vim viewing using ruby code
-let g:ruby_path = system('echo $HOME/.rbenv/shims')
+let g:ruby_path = system('echo $HOME/.rbenv/shims') " speeds up viewing ruby code (apparently)
 
 syntax enable
 
-set t_Co=256 " Set 256 colours
+set t_Co=256              " Set 256 colours
 colorscheme wombat256mod
-set colorcolumn=80 " Add bar at 80 chars wide
+set colorcolumn=80        " Add bar at 80 chars wide
 highlight ColorColumn ctermbg=black
 
-set tabstop=2
-set shiftwidth=2
-set expandtab
+set tabstop=2             " Tab is 2 chars long
+set shiftwidth=2          " indent/outdent by 2 spaces
+set expandtab             " Use spaces instead of tab
 
-set number " Displays line numbers
+set number                " Displays line numbers
 set wildmode=longest,list
-set wildmenu " Enable bash <tab><tab> to list dir
+set wildmenu              " Enable bash <tab><tab> to list dir
 
-set incsearch " Show match when typing
-set hlsearch " Highlight all search matches
+set incsearch             " Show match when typing
+set hlsearch              " Highlight all search matches
 
 set autoindent
 filetype plugin indent on
 
-set scrolloff=2 " Scroll 2 lines before edge of screen
-set nowrap " Don't wrap text
-set laststatus=2 " Always show status bar
-set lazyredraw  " Dont redraw between marcos
-set timeoutlen=500
+set scrolloff=2           " Scroll 2 lines before edge of screen
+set nowrap                " Don't wrap text
+set laststatus=2          " Always show status bar
+set lazyredraw            " Dont redraw between marcos
+set timeoutlen=500        " Time to wait for second key press
 
 if has("autocmd")
   highlight ExtraWhitespace ctermbg=red
@@ -40,6 +39,8 @@ if has("autocmd")
   " autocmd WinLeave * set nocursorline nocursorcolumn
   " autocmd WinEnter * set cursorline cursorcolumn
 
+  autocmd Filetype gitcommit setlocal spell textwidth=72
+
   autocmd! BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
   autocmd BufNewFile,BufRead *.ui set filetype=ruby
   autocmd BufNewFile,BufRead  Gemfile set filetype=ruby
@@ -50,13 +51,16 @@ set directory=~/.vim/tmp  " Store swps in same dir
 
 "map leader to , and \
 map , \
+
 nnoremap Y y$
 
 "mappings
 imap § <ESC>
 nmap <S-k> :!<CR>
 
-nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>==
+" nmap <leader>pp :normal orequire 'pry'; binding.pry<ESC>==
+nmap <leader>bb :call InsertDebugger()<CR>
+nmap <leader>pp :call InsertDebugger()<CR>
 nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
 nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <leader>f :NERDTreeToggle<CR>
@@ -76,13 +80,14 @@ nmap <leader>tf :call RunTest(@%)<CR>
 nmap <leader>tt :call TestLine()<CR>
 
 " Run the last test again
-nmap <leader>tl :call ExecCmd(w:command)<CR>
+nmap <leader>tl :call ExecCmd(g:command)<CR>
 
 nmap <leader>lc :call LatexCompile()<CR>
 
 " nmap <F6> :set wrap!<CR> :echo "Wrap Lines ="&wrap<CR>
 nmap <F7> :! ruby app.rb<CR>
 map <F12> :call ToggleMouseMode()<CR>
+
 
 " Save the current open windows
 command! SaveSession mksession! ~/.vim/vim_session
@@ -92,15 +97,24 @@ command! LoadSession source ~/.vim/vim_session
 
 command! LatexCompile :call ExecCmd("pdflatex " . @%)<CR>
 
+function! InsertDebugger()
+  if(&filetype == 'ruby')
+    :normal orequire 'pry'; binding.pry
+  else
+    :normal odebugger
+  endif
+  :normal ==
+endfunction
+
 function! TestLine()
   let l:command =  "-f documentation -l " . line(".") . ' ' . @%
   call RunTest(l:command)
 endfunction
 
 function! RunTest(command)
-  let w:command = (system("pgrep zeus") != '') ? "zeus " : "bundle exec "
-  let w:command .= 'rspec --profile ' . a:command
-  call ExecCmd(w:command)
+  let g:command = (system("pgrep zeus") != '') ? "zeus " : "bundle exec "
+  let g:command .= 'rspec --profile ' . a:command
+  call ExecCmd(g:command)
 endfunction
 
 function! GitBlame()
