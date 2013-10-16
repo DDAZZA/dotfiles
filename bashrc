@@ -16,6 +16,11 @@ then
   . ~/.git-completion.bash
 fi
 
+if [ -f ~/.git-prompt.sh ]
+then
+  . ~/.git-prompt.sh
+fi
+
 if [ -f ~/.bash_extra ]
 then
   source ~/.bash_extra # extra configuration for specific computer
