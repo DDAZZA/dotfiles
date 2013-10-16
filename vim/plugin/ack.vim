@@ -9,8 +9,9 @@
 
 " Location of the ack utility
 if !exists("g:ackprg")
-  let s:ackcommand = executable('ack-grep') ? 'ack-grep' : 'ack'
-  let g:ackprg=s:ackcommand." -H --nocolor --nogroup --column"
+  " let s:ackcommand = executable('ack-grep') ? 'ack-grep' : 'ack'
+  " let g:ackprg=s:ackcommand." -H --nocolor --nogroup --column"
+  let g:ackprg = 'git grep -H --line-number --no-color'
 endif
 
 if !exists("g:ack_apply_qmappings")
@@ -44,7 +45,8 @@ function! s:Ack(cmd, args)
   if a:cmd =~# '-g$'
     let g:ackformat="%f"
   else
-    let g:ackformat="%f:%l:%c:%m"
+    " let g:ackformat="%f:%l:%c:%m"
+    let g:ackformat="%f:%l:%c:%m,%f:%l:%m"
   end
 
   let grepprg_bak=&grepprg

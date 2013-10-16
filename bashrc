@@ -11,11 +11,12 @@ alias gsl='clear; git status -sb'
 alias ll='ls -al'
 alias tmux='tmux -2'
 
-if [ -f ~/.git-completion.bash ]; then
+if [ -f ~/.git-completion.bash ]
+then
   . ~/.git-completion.bash
 fi
 
-if [ -f ~/.bash_extra ];
+if [ -f ~/.bash_extra ]
 then
   source ~/.bash_extra # extra configuration for specific computer
 fi
