@@ -63,7 +63,8 @@ nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
 nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
-nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
+" nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
+nmap <leader>s :FindFile 
 
 nmap <leader>gb :call GitBlame()<CR>
 
@@ -151,4 +152,12 @@ function! RenameFile()
     exec ':silent !rm ' . old_name
     redraw!
   endif
+endfunction
+
+command! -nargs=* FindFile :call FindFile(<q-args>)
+function! FindFile(str)
+  let l:command = "for i in `git ls-files | grep " . a:str . "`; do echo $i':1: '; done;"
+
+  cex system(l:command)
+  cope
 endfunction
