@@ -27,7 +27,7 @@ set colorcolumn=80        " Add bar at 80 chars wide
 
 highlight ColorColumn ctermbg=black
 highlight TabLineFill ctermfg=black
-set synmaxcol=120         " Amount of chars to stop highlighting at                          
+set synmaxcol=120         " Amount of chars to stop highlighting at
 
 
 set tabstop=2             " Tab is 2 chars long
@@ -70,16 +70,16 @@ nmap <S-k> :!<CR>
 
 " Be consistant with D,C,S keys
 nnoremap Y y$
-nmap <leader>bb :call InsertDebugger()<CR>
-nmap <silent><leader>pp :call InsertDebugger()<CR>
+nmap <leader>b :call InsertDebugger()<CR>
+nmap <leader>dd :call InsertDebugger()<CR>
 nmap <leader>< :norm ggVGg?<CR>
-nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
-nmap <leader>desc :Ack "describe " <C-r>%<CR>
+" nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
+" nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <silent><leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
-nmap <leader>p :setlocal paste!<CR>:echo "Paste Mode ="&paste<CR>
+nmap <leader>p :call Paste()<CR>
 " nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
-nmap <leader>s :FindFile 
+nmap <leader>s :FindFile
 
 nmap <silent><leader>gb :call GitBlame()<CR>
 
@@ -142,6 +142,15 @@ endfunction
 function! ExecCmd(command)
   silent !clear
   execute "!echo " . a:command . " && " . a:command
+endfunction
+
+command! Paste :call Paste()
+function! Paste()
+  set paste
+  normal o
+  " Paste from clipboard
+  let @a=substitute(@*, "\\s\\+\\n", "\n", "ge") | normal "ap
+  set nopaste
 endfunction
 
 command! -nargs=* Taback :call Taback(<q-args>)
