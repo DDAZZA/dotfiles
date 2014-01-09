@@ -11,8 +11,7 @@ alias gsl='clear; git status -sb'
 alias ll='ls -al'
 alias tmux='tmux -2'
 
-#get myip
-alias myip='curl ifconfig.me'
+alias myip='curl ifconfig.me' # get my ip
 
 if [ -f ~/.git-completion.bash ]
 then

@@ -8,7 +8,6 @@ if has("autocmd")
   autocmd! InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd! InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd! BufWinLeave * call clearmatches()
-  " autocmd! Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
   autocmd! Filetype gitcommit setlocal spell textwidth=72
 
@@ -22,18 +21,15 @@ syntax enable
 set t_Co=256              " Set 256 colours
 colorscheme wombat256mod
 
-
 set colorcolumn=80        " Add bar at 80 chars wide
 
 highlight ColorColumn ctermbg=black
 highlight TabLineFill ctermfg=black
 set synmaxcol=120         " Amount of chars to stop highlighting at
 
-
 set tabstop=2             " Tab is 2 chars long
 set shiftwidth=2          " Indent/Outdent by 2 spaces
 set expandtab             " Use spaces instead of tab
-
 
 set number                " Displays line numbers
 set relativenumber        " Displays relative line numbers
@@ -54,6 +50,11 @@ set timeoutlen=500        " Time to wait for second key press
 set backupdir=~/.vim/tmp  " Store backups in same dir
 set directory=~/.vim/tmp  " Store swps in same dir
 
+
+" Netrw
+let g:netrw_banner = 0 " Dont show banner
+let g:netrw_liststyle=0
+"
 "map leader to , and \
 map , \
 
