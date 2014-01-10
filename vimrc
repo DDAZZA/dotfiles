@@ -25,7 +25,6 @@ set colorcolumn=80        " Add bar at 80 chars wide
 
 highlight ColorColumn ctermbg=black
 highlight TabLineFill ctermfg=black
-set synmaxcol=120         " Amount of chars to stop highlighting at
 
 set tabstop=2             " Tab is 2 chars long
 set shiftwidth=2          " Indent/Outdent by 2 spaces
@@ -182,14 +181,6 @@ function! RenameFile()
   endif
 endfunction
 
-" command! -nargs=* FindFile :call FindFile(<q-args>)
-" function! FindFile(str)
-"   let l:command = "for i in `git ls-files | grep " . a:str . "`; do echo $i':1: '; done;"
-" 
-"   cex system(l:command)
-"   cope
-" endfunction
-
 command! -nargs=* FindFile :call FindFile(<q-args>)
 function! FindFile(str)
   let l:ostr = split(a:str)
@@ -203,11 +194,11 @@ function! FindFile(str)
   cex system(l:command)
   cope
 
-  " highlight MySearch ctermbg=darkgreen guibg=darkgreen
-  " " match MySearch /\v^((foo)@!.){-}\zsfoo/
-  " " call matchadd('MySearch', '\v^((foo)@!.){-}foo.{-}\zsbar')
-  " match MySearch /\v^((app)@!.){-}\zsapp/
-  " for var in l:ostr[1:-1]
-  "   call matchadd('MySearch', '\v^((app)@!.){-}app.{-}\zs' . var)
-  " endfor
+  highlight MySearch ctermbg=darkgreen guibg=darkgreen
+  execute 'match MySearch /\((' . l:ostr[0] . ' )@!.\)\{-}\zs' . l:ostr[0] . '/'
+  let c = 1
+  while c <= len(l:ostr)-1
+    call matchadd('MySearch', '\((' . l:ostr[c-1] . ')@!.\)\{-}' . l:ostr[c-1] . '.\{-}\zs' . l:ostr[c])
+    let c += 1
+  endwhile
 endfunction
