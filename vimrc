@@ -30,8 +30,9 @@ set tabstop=2             " Tab is 2 chars long
 set shiftwidth=2          " Indent/Outdent by 2 spaces
 set expandtab             " Use spaces instead of tab
 
-set number                " Displays line numbers
 set relativenumber        " Displays relative line numbers
+set number                " Displays line numbers
+
 set wildmode=longest,list
 set wildmenu              " Enable bash <tab><tab> to list dir
 
@@ -53,6 +54,7 @@ set directory=~/.vim/tmp  " Store swps in same dir
 " Netrw
 let g:netrw_banner = 0 " Dont show banner
 let g:netrw_liststyle=0
+
 "
 "map leader to , and \
 map , \
@@ -79,7 +81,7 @@ nmap <silent><leader>f :NERDTreeToggle<CR>
 nmap <leader>nn :set number!<CR>
 nmap <leader>p :call Paste()<CR>
 " nmap <leader>ss :setlocal spell!<CR>:echo "SpellChecker ="&spell<CR>
-nmap <leader>s :FindFile
+nmap <leader>s :FindFile 
 
 nmap <silent><leader>gb :call GitBlame()<CR>
 

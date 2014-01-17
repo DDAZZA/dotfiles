@@ -114,17 +114,20 @@ please make sure, you have the current version of vimball (vimscript
 ========================================================================
 Contents~
 
+        g:tcommentMaps ...................... |g:tcommentMaps|
         g:tcommentMapLeader1 ................ |g:tcommentMapLeader1|
         g:tcommentMapLeader2 ................ |g:tcommentMapLeader2|
         g:tcommentMapLeaderOp1 .............. |g:tcommentMapLeaderOp1|
         g:tcommentMapLeaderOp2 .............. |g:tcommentMapLeaderOp2|
+        g:tcommentTextObjectInlineComment ... |g:tcommentTextObjectInlineComment|
         :TComment ........................... |:TComment|
         :TCommentAs ......................... |:TCommentAs|
         :TCommentRight ...................... |:TCommentRight|
         :TCommentBlock ...................... |:TCommentBlock|
         :TCommentInline ..................... |:TCommentInline|
         :TCommentMaybeInline ................ |:TCommentMaybeInline|
-        g:tcommentBlankLines ................ |g:tcommentBlankLines|
+        g:tcomment#blank_lines .............. |g:tcomment#blank_lines|
+        g:tcomment#rstrip_on_uncomment ...... |g:tcomment#rstrip_on_uncomment|
         g:tcommentModeExtra ................. |g:tcommentModeExtra|
         g:tcommentOpModeExtra ............... |g:tcommentOpModeExtra|
         g:tcommentOptions ................... |g:tcommentOptions|
@@ -142,11 +145,12 @@ Contents~
         g:tcomment#syntax_substitute ........ |g:tcomment#syntax_substitute|
         g:tcommentSyntaxMap ................. |g:tcommentSyntaxMap|
         g:tcomment#replacements_c ........... |g:tcomment#replacements_c|
-        g:tcommentBlockC .................... |g:tcommentBlockC|
-        g:tcommentBlockC2 ................... |g:tcommentBlockC2|
         g:tcommentInlineC ................... |g:tcommentInlineC|
+        g:tcommentBlockC2 ................... |g:tcommentBlockC2|
+        g:tcomment#replacements_xml ......... |g:tcomment#replacements_xml|
         g:tcommentBlockXML .................. |g:tcommentBlockXML|
         g:tcommentInlineXML ................. |g:tcommentInlineXML|
+        g:tcomment#ignore_comment_def ....... |g:tcomment#ignore_comment_def|
         tcomment#DefineType ................. |tcomment#DefineType()|
         g:tcomment_types .................... |g:tcomment_types|
         tcomment#Comment .................... |tcomment#Comment()|
@@ -157,10 +161,15 @@ Contents~
         tcomment#OperatorLineAnyway ......... |tcomment#OperatorLineAnyway()|
         tcomment#CommentAs .................. |tcomment#CommentAs()|
         tcomment#GuessCommentType ........... |tcomment#GuessCommentType()|
+        tcomment#TextObjectInlineComment .... |tcomment#TextObjectInlineComment()|
 
 
 ========================================================================
 plugin/tcomment.vim~
+
+                                                    *g:tcommentMaps*
+g:tcommentMaps                 (default: 1)
+    If true, set maps.
 
                                                     *g:tcommentMapLeader1*
 g:tcommentMapLeader1           (default: '<c-_>')
@@ -179,6 +188,9 @@ g:tcommentMapLeaderOp1         (default: 'gc')
                                                     *g:tcommentMapLeaderOp2*
 g:tcommentMapLeaderOp2         (default: 'gC')
     See |tcomment-operator|.
+
+                                                    *g:tcommentTextObjectInlineComment*
+g:tcommentTextObjectInlineComment (default: 'ic')
 
                                                     *:TComment*
 :[range]TComment[!] ?ARGS...
@@ -242,9 +254,16 @@ g:tcommentMapLeaderOp2         (default: 'gC')
 ========================================================================
 autoload/tcomment.vim~
 
-                                                    *g:tcommentBlankLines*
-g:tcommentBlankLines           (default: 1)
-    If true, comment blank lines too
+                                                    *g:tcomment#blank_lines*
+g:tcomment#blank_lines         (default: 2)
+    If 1, comment blank lines too.
+    If 2, also comment blank lines within indented code blocks 
+    (requires mixedindent -- see |tcomment#Comment()|).
+
+                                                    *g:tcomment#rstrip_on_uncomment*
+g:tcomment#rstrip_on_uncomment (default: 1)
+    If 1, remove right-hand whitespace on uncomment from empty lines.
+    If 2, remove right-hand whitespace on uncomment from all lines.
 
                                                     *g:tcommentModeExtra*
 g:tcommentModeExtra            (default: '')
@@ -341,28 +360,37 @@ g:tcommentSyntaxMap            (default: {...})
 g:tcomment#replacements_c      (default: {...})
     Replacements for c filetype.
 
-                                                    *g:tcommentBlockC*
-g:tcommentBlockC               (default: {...})
-    Generic c-like block comments.
+                                                    *g:tcommentInlineC*
+g:tcommentInlineC              (default: {...})
+    Generic c-like comments.
 
                                                     *g:tcommentBlockC2*
 g:tcommentBlockC2              (default: {...})
+    Generic c-like block comments.
     Generic c-like block comments (alternative markup).
 
-                                                    *g:tcommentInlineC*
-g:tcommentInlineC              (default: g:tcommentLineC)
-    Generic c-like comments.
+                                                    *g:tcomment#replacements_xml*
+g:tcomment#replacements_xml    (default: {...})
+    Replacements for xml filetype.
 
                                                     *g:tcommentBlockXML*
-g:tcommentBlockXML             (default: "<!--%s-->\n  ")
+g:tcommentBlockXML             (default: {...})
     Generic xml-like block comments.
 
                                                     *g:tcommentInlineXML*
-g:tcommentInlineXML            (default: "<!-- %s -->")
+g:tcommentInlineXML            (default: {...})
     Generic xml-like comments.
 
+                                                    *g:tcomment#ignore_comment_def*
+g:tcomment#ignore_comment_def  (default: [])
+    A list of names or filetypes, which should be ignored by 
+    |tcomment#DefineType()| -- no custom comment definition will be 
+    stored for these names.
+
+    This variable should be set before loading autoload/tcomment.vim.
+
                                                     *tcomment#DefineType()*
-tcomment#DefineType(name, commentdef)
+tcomment#DefineType(name, commentdef, ?cdef={}, ?anyway=0)
     If you don't explicitly define a comment style, |:TComment| will use 
     'commentstring' instead. We override the default values here in order 
     to have a blank after the comment marker. Block comments work only if 
@@ -410,6 +438,7 @@ tcomment#Comment(beg, end, ...)
             col=N            ... Start the comment at column N (in block 
                                  mode; must be smaller than |indent()|)
             mode=STRING      ... See the notes below on the "commentMode" argument
+            mode_extra=STRING ... Add to commentMode
             begin=STRING     ... Comment prefix
             end=STRING       ... Comment postfix
             middle=STRING    ... Middle line comments in block mode
@@ -417,16 +446,28 @@ tcomment#Comment(beg, end, ...)
                                  that should be multiplied by "count"
             rxend=N          ... The above for "end"
             rxmid=N          ... The above for "middle"
+            mixedindent=BOOL ... If true, allow use of mixed 
+                                 characters for indentation
             commentstring_rx ... A regexp format string that matches 
                                  commented lines (no new groups may be 
                                  introduced, the |regexp| is |\V|; % have 
                                  to be doubled); "commentstring", "begin" 
                                  and optionally "end" must be defined or 
                                  deducible.
+            whitespace       ... Define whether commented text is 
+                                 surrounded with whitespace; if
+                                 both ... surround with whitespace (default)
+                                 left ... keep whitespace on the left
+                                 right... keep whitespace on the right
+                                 no   ... don't use whitespace
+            strip_whitespace ... Strip trailing whitespace: if 1 
+                                 (default), strip from empty lines only, 
+                                 if 2, always strip whitespace; if 0, 
+                                 don't strip any whitespace
       2. 1-2 values for: ?commentPrefix, ?commentPostfix
       3. a dictionary (internal use only)
 
-    commentMode:
+    commentMode (see also ¦g:tcommentModeExtra¦):
       G ... guess the value of commentMode
       B ... block (use extra lines for the comment markers)
       i ... maybe inline, guess
@@ -477,6 +518,9 @@ tcomment#GuessFileType(?options={})
     to make comments. The information about the filetype of the text 
     between lines "beg" and "end" is in the "filetype" key of the return 
     value. It returns the first discernible filetype it encounters.
+
+                                                    *tcomment#TextObjectInlineComment()*
+tcomment#TextObjectInlineComment()
 
 
 
