@@ -55,9 +55,11 @@ set directory=~/.vim/tmp  " Store swps in same dir
 let g:netrw_banner = 0 " Dont show banner
 let g:netrw_liststyle=0
 
-"
 "map leader to , and \
 map , \
+
+" TODO
+" tmux send-keys -t:3 'ls' Enter; tmux select-window -t:3
 
 " Insert Mode Mappings
 imap § <ESC>
@@ -74,7 +76,7 @@ nmap <S-k> :!<CR>
 nnoremap Y y$
 nmap <leader>b :call InsertDebugger()<CR>
 nmap <leader>dd :call InsertDebugger()<CR>
-nmap <leader>< :norm ggVGg?<CR>
+" nmap <leader>< :norm ggVGg?<CR>
 " nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
 " nmap <leader>desc :Ack "describe " <C-r>%<CR>
 nmap <silent><leader>f :NERDTreeToggle<CR>
@@ -164,12 +166,6 @@ endfunction
 function! ToggleMouseMode()
   let &mouse=(&mouse == "a"?"":"a")
   echo (&mouse == 'a') ? "MouseMode On" : "MouseMode Off"
-endfunction
-
-command! JasmineCompile :call JasmineCompile()
-function! JasmineCompile()
-  let l:command = "bundle exec rake sop_ui:jasmine_compile_template[" . expand('%:t:r') . "]"
-  call ExecCmd(l:command)
 endfunction
 
 command! RenameFile :call RenameFile()
