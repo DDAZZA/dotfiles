@@ -27,3 +27,7 @@ if [ -f ~/.bash_extra ]
 then
   source ~/.bash_extra # extra configuration for specific computer
 fi
+
+set_term_title(){
+  echo -en "\033]0;$1\a"
+}

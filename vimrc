@@ -11,7 +11,9 @@ if has("autocmd")
 
   autocmd! Filetype gitcommit setlocal spell textwidth=72
 
-  autocmd! BufRead,BufNewFile *.ui set filetype=ruby
+  au BufNewFile,BufRead *.ui set filetype=ruby
+  au BufNewFile,BufRead *.md set filetype=markdown
+  au BufNewFile,BufRead *.coffee set filetype=coffee
   autocmd! BufRead,BufNewFile Gemfile setfiletype ruby
 
   autocmd! BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
@@ -26,11 +28,12 @@ set colorcolumn=80        " Add bar at 80 chars wide
 highlight ColorColumn ctermbg=black
 highlight TabLineFill ctermfg=black
 
+set backspace=2           " Delete key works to beginning of line
 set tabstop=2             " Tab is 2 chars long
 set shiftwidth=2          " Indent/Outdent by 2 spaces
 set expandtab             " Use spaces instead of tab
 
-set relativenumber        " Displays relative line numbers
+" set relativenumber        " Displays relative line numbers
 set number                " Displays line numbers
 
 set wildmode=longest,list
@@ -41,7 +44,8 @@ set hlsearch              " Highlight all search matches
 
 set autoindent
 
-set scrolloff=3           " Scroll lines before edge of screen
+set scrolloff=5           " Scroll lines before edge of screen
+set scrolljump=5           " Scroll lines before edge of screen
 set nowrap                " Don't wrap text
 set laststatus=2          " Always show status bar
 set lazyredraw            " Dont redraw between marcos
@@ -91,7 +95,7 @@ nmap <silent><leader>gb :call GitBlame()<CR>
 nmap <silent><leader>gs :echo system("git status")<CR>
 
 " Run test on the whole file
-nmap <silent><leader>tf :call RunTest(@%)<CR>
+nmap <silent><leader>tf :call RunTest(' -- '. @%)<CR>
 
 " Run tests on the current line
 nmap <silent><leader>tt :call TestLine()<CR>
@@ -132,7 +136,9 @@ endfunction
 
 function! RunTest(command)
   let g:command = (system("pgrep zeus") != '') ? "zeus " : "bundle exec "
-  let g:command .= 'rspec --profile ' . a:command
+  " let g:command = call system('[ -f ./bin/rspec ] && echo "./bin/"')
+  " let g:command = './bin/'
+  let g:command .= 'rspec --profile --fail-fast ' . a:command
   call ExecCmd(g:command)
 endfunction
 
