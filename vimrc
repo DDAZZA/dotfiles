@@ -136,9 +136,12 @@ endfunction
 
 function! RunTest(command)
   let g:command = (system("pgrep zeus") != '') ? "zeus " : "bundle exec "
-  " let g:command = call system('[ -f ./bin/rspec ] && echo "./bin/"')
-  " let g:command = './bin/'
-  let g:command .= 'rspec --profile --fail-fast ' . a:command
+
+  if filereadable("./bin/rspec")
+    let g:command = "./bin/"
+  endif
+
+  let g:command .= 'rspec  ' . a:command
   call ExecCmd(g:command)
 endfunction
 
