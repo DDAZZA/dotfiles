@@ -3,21 +3,19 @@ let g:ruby_path = system('echo $HOME/.rbenv/shims') " speeds up viewing ruby cod
 if has("autocmd")
   filetype plugin indent on
 
-  autocmd! ColorScheme * highlight ExtraWhitespace ctermbg=darkred guibg=red
-  autocmd! BufWinEnter * match ExtraWhitespace /\s\+$\|\t\+$/
-  autocmd! InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-  autocmd! InsertLeave * match ExtraWhitespace /\s\+$/
-  autocmd! BufWinLeave * call clearmatches()
+  autocmd!
+  autocmd Filetype gitcommit setlocal spell textwidth=72
+  autocmd Filetype Gemfile setfiletype ruby
+  autocmd Filetype Fudgefile setfiletype ruby
+  autocmd BufNewFile,BufRead *.ui setlocal filetype=ruby
+  autocmd BufNewFile,BufRead *.md setlocal filetype=markdown spell textwidth=80
+  autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
 
-  autocmd! Filetype gitcommit setlocal spell textwidth=72
-
-  au BufNewFile,BufRead *.ui set filetype=ruby
-  au BufNewFile,BufRead *.md set filetype=markdown
-  au BufNewFile,BufRead *.coffee set filetype=coffee
-  autocmd! BufRead,BufNewFile Gemfile setfiletype ruby
-
-  autocmd! BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
+  autocmd BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
 endif
+
+set list
+set listchars=tab:>-,trail:.,extends:>
 
 syntax enable
 set t_Co=256              " Set 256 colours
@@ -197,6 +195,7 @@ function! FindFile(str)
   let l:regex = join(l:str,'')
 
   let l:command = "for i in `git ls-files -z | xargs -0 ls  -t | grep '" . l:regex . "'`; do echo $i':1: '; done;"
+  " let l:command = 'git ls-files | awk '{printf "%s:1\n", $1}' '
 
   cex system(l:command)
   cope

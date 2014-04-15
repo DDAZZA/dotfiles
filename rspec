@@ -1,4 +1,2 @@
 --color
---order rand
---profile
---fail-fast
+--profile 3
