@@ -6,26 +6,24 @@
 
 ########## Variables
 
-dir=$PWD                    # dotfiles directory
-olddir=~/dotfiles_old             # old dotfiles backup directory
+dir=$PWD                                                              # dotfiles directory
+olddir=~/dotfiles_old/`date '+%Y-%m-%d'`                              # old dotfiles backup directory
 files="bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec"    # list of files/folders to symlink in homedir
 
 ##########
 
 # create dotfiles_old in homedir
-echo -ne "Creating $olddir for backup of any existing dotfiles in ~/"
-mkdir -p $olddir
+echo -ne "Creating $olddir"
+mkdir -p $olddir/
 echo " ...done"
 
 # change to the dotfiles directory
-echo -ne "Changing to $dir directory"
 cd $dir
-echo " ...done"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
+# move existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $files; do
   echo -ne "Moving ~/.$file to $olddir/$file"
-  mv ~/.$file ~/dotfiles_old/
+  mv ~/.$file $olddir/$file
   echo " ...done"
 
   echo -ne "Creating symlink to $file in home directory"
@@ -33,3 +31,15 @@ for file in $files; do
   echo " ...done"
   echo
 done
+
+if [ ! -f ~/.git-completion.sh ]; then
+  echo 'Installing git completion'
+  curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.sh
+fi
+
+if [ ! -f ~/.git-prompt.sh ]; then
+  echo 'Installing git prompt'
+  curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
+fi
+
+source ~/.bashrc
