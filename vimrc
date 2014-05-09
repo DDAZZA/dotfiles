@@ -19,12 +19,15 @@ set listchars=tab:>-,trail:.,extends:>
 
 syntax enable
 set t_Co=256              " Set 256 colours
+
 colorscheme wombat256mod
-
 set colorcolumn=80        " Add bar at 80 chars wide
-
 highlight ColorColumn ctermbg=black
 highlight TabLineFill ctermfg=black
+
+" colorscheme pyte
+
+
 
 set backspace=2           " Delete key works to beginning of line
 set tabstop=2             " Tab is 2 chars long
@@ -187,6 +190,7 @@ function! RenameFile()
 endfunction
 
 command! -nargs=* FindFile :call FindFile(<q-args>)
+command! -nargs=* FF :call FindFile(<q-args>)
 function! FindFile(str)
   let l:ostr = split(a:str)
   let l:str = split(a:str)
