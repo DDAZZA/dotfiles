@@ -147,9 +147,22 @@ function! RunTest(command)
 endfunction
 
 function! GitBlame()
-  let l:p = -3 + line('.')
-  let l:n = 3 + line('.')
-  let l:command = "git blame " . @% . " -w -L " . l:p . "," . l:n
+  let l:total_lines = line('$')
+  let l:current_line = line('.')
+
+  if l:total_lines > 6
+    let l:p = -3 + l:current_line
+    let l:n = 3 + l:current_line
+    if l:n > l:total_lines
+      let l:n = l:total_lines
+    endif
+
+    let l:lines = " -L " . l:p . "," . l:n
+  else
+    let l:lines = ''
+  endif
+
+  let l:command = "git blame " . @% .  l:lines
   echo system(l:command)
 endfunction
 
