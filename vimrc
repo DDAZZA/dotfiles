@@ -20,14 +20,17 @@ set listchars=tab:>-,trail:.,extends:>
 syntax enable
 set t_Co=256              " Set 256 colours
 
-colorscheme wombat256mod
-set colorcolumn=80        " Add bar at 80 chars wide
-highlight ColorColumn ctermbg=black
-highlight TabLineFill ctermfg=black
+let g:presenting_mode = 0
 
-" colorscheme pyte
-
-
+if g:presenting_mode ==1
+  colorscheme pyte
+  " set background=light
+else
+  colorscheme wombat256mod
+  set colorcolumn=80        " Add bar at 80 chars wide
+  highlight ColorColumn ctermbg=black
+  highlight TabLineFill ctermfg=black
+endif
 
 set backspace=2           " Delete key works to beginning of line
 set tabstop=2             " Tab is 2 chars long
