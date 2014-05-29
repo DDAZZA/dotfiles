@@ -214,7 +214,7 @@ function! FindFile(str)
   let l:command = "for i in `git ls-files -z | xargs -0 ls  -t | grep '" . l:regex . "'`; do echo $i':1: '; done;"
   " let l:command = 'git ls-files | awk '{printf "%s:1\n", $1}' '
 
-  cex system(l:command)
+  cgete system(l:command)
   cope
 
   highlight MySearch ctermbg=darkgreen guibg=darkgreen
