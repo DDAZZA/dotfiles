@@ -7,7 +7,7 @@ if has("autocmd")
   autocmd Filetype gitcommit setlocal spell textwidth=72
   autocmd Filetype Gemfile setfiletype ruby
   autocmd Filetype Fudgefile setfiletype ruby
-  autocmd BufNewFile,BufRead *.ui setlocal filetype=ruby
+  autocmd BufRead,BufNewFile *.ui set filetype=ruby
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown spell textwidth=80
   autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
 
@@ -15,7 +15,7 @@ if has("autocmd")
 endif
 
 set list
-set listchars=tab:>-,trail:.,extends:>
+set listchars=tab:>-,trail:%,extends:>
 
 syntax enable
 set t_Co=256              " Set 256 colours
@@ -24,12 +24,14 @@ let g:presenting_mode = 0
 
 if g:presenting_mode ==1
   colorscheme pyte
-  " set background=light
+  set background=light
 else
+  set background=dark
   colorscheme wombat256mod
-  set colorcolumn=80        " Add bar at 80 chars wide
+  set colorcolumn=120        " Add bar at 80 chars wide
   highlight ColorColumn ctermbg=black
   highlight TabLineFill ctermfg=black
+  " highlight Directory ctermfg=lightyellow     
 endif
 
 set backspace=2           " Delete key works to beginning of line
@@ -134,7 +136,7 @@ function! InsertDebugger()
 endfunction
 
 function! TestLine()
-  let l:command =  "-f documentation -l " . line(".") . ' ' . @%
+  let l:command =   ' ' . @% . ':' . line(".") . " -f documentation"
   call RunTest(l:command)
 endfunction
 
@@ -228,3 +230,18 @@ function! FindFile(str)
     let c += 1
   endwhile
 endfunction
+
+" set foldexpr=RubyMethodFold(v:lnum)
+" set foldmethod=expr
+"
+" function! RubyMethodFold(line)
+"   let stack = synstack(a:line, (match(getline(a:line), '^\s*\zs'))+1)
+"
+"   for synid in stack
+"     if GetSynString(GetSynDict(synid)) ==? "rubyMethodBlock" || GetSynString(GetSynDict(synid)) ==? "rubyDefine" || GetSynString(GetSynDict(synid)) ==? "rubyDocumentation"
+"       return 1
+"     endif
+"   endfor
+"
+"   return 0
+" endfunction

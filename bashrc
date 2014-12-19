@@ -7,7 +7,7 @@ alias gs='git status -sb'
 alias gsl='clear; git status -sb'
 alias ll='ls -al'
 alias tmux='tmux -2'
-alias bye='pkill sshd'
+alias bye='pkill -1 sshd'
 
 # alias myip='curl ifconfig.me' # get my ip
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
@@ -28,6 +28,6 @@ if [ -f ~/.bash_extra ]; then
   source ~/.bash_extra # extra configuration for specific computer
 fi
 
-set_term_title(){
-  echo -en "\033]0;$1\a"
-}
+# set_term_title(){
+#   echo -en "\033]0;$1\a"
+# }
