@@ -17,7 +17,7 @@ for file in $FILES; do
     rm $file
   fi
 
-  if [[ "$file" ]]; then
+  if [[ -f "$file" ]]; then
     mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
   fi
 
