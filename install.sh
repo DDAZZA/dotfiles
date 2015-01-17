@@ -7,8 +7,6 @@ set -o nounset
 readonly DIR=$PWD                                                               # dotfiles directory
 readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y%m%d_%H%M%S')                      # old dotfiles backup directory
 readonly FILES="bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec"     # list of files/folders to symlink in homedir
-bold=`tput bold`
-normal=`tput sgr0`
 
 # change to the dotfiles directory
 cd $DIR
@@ -23,7 +21,7 @@ for file in $FILES; do
     mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
   fi
 
-  echo "Installing ${bold}$file${normal}"
+  echo "Installing: $file"
   ln -s $DIR/$file ~/.$file
 done
 
