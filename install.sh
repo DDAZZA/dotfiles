@@ -5,37 +5,33 @@
 ############################
 set -o nounset
 readonly DIR=$PWD                                                               # dotfiles directory
-readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y-%m-%d')                              # old dotfiles backup directory
+readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y%m%d_%H%M%S')                      # old dotfiles backup directory
 readonly FILES="bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec"     # list of files/folders to symlink in homedir
-
-
-# create dotfiles_old in homedir
-echo -ne "Creating $BACKUP_DIR"
-mkdir -p $BACKUP_DIR/
-echo " ...done"
+bold=`tput bold`
+normal=`tput sgr0`
 
 # change to the dotfiles directory
 cd $DIR
 
 # move existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $FILES; do
-  echo -ne "Moving ~/.$file to $BACKUP_DIR/$file"
-  mv ~/.$file $BACKUP_DIR/$file
-  echo " ...done"
+  if [[ -L "$file" ]]; then
+    rm $file
+  fi
 
-  echo -ne "Creating symlink to $file in home directory"
+  if [[ "$file" ]]; then
+    mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
+  fi
+
+  echo "Installing ${bold}$file${normal}"
   ln -s $DIR/$file ~/.$file
-  echo " ...done"
-  echo
 done
 
 if [[ ! -f ~/.git-completion.sh ]]; then
-  echo 'Installing git completion'
   curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.sh
 fi
 
 if [[ ! -f ~/.git-prompt.sh ]]; then
-  echo 'Installing git prompt'
   curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
 fi
 
