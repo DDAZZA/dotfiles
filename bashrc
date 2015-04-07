@@ -31,3 +31,6 @@ fi
 # set_term_title(){
 #   echo -en "\033]0;$1\a"
 # }
+function exec_sql() {
+  mysql --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "$@" -v sage_one_adv_development
+}
