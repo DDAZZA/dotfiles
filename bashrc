@@ -3,7 +3,6 @@ export MYSQL_PS1="\u@\h [\d]> "
 export EDITOR='vim'
 
 alias be='bundle exec'
-alias gs='git status -sb'
 alias gsl='clear; git status -sb'
 alias ll='ls -al'
 alias tmux='tmux -2'
@@ -27,7 +26,3 @@ fi
 if [ -f ~/.bash_extra ]; then
   source ~/.bash_extra # extra configuration for specific computer
 fi
-
-set_term_title(){
-  echo -en "\033]0;$1\a"
-}

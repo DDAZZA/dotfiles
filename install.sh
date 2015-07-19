@@ -13,11 +13,11 @@ cd $DIR
 
 # move existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $FILES; do
-  if [[ -L "$file" ]]; then
+  if [ -L "$file" ]; then
     rm $file
   fi
 
-  if [[ -f "$file" ]]; then
+  if [ -f "$file" ]; then
     mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
   fi
 
@@ -25,12 +25,12 @@ for file in $FILES; do
   ln -s $DIR/$file ~/.$file
 done
 
-if [[ ! -f ~/.git-completion.sh ]]; then
-  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.sh
+if [ ! -f ~/.git-completion.sh ]; then
+  wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O ~/.git-completion.sh
 fi
 
-if [[ ! -f ~/.git-prompt.sh ]]; then
-  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
+if [ ! -f ~/.git-prompt.sh ]; then
+  wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -O ~/.git-prompt.sh
 fi
 
 source ~/.bashrc

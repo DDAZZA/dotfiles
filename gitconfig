@@ -11,5 +11,6 @@
 	email = ddazza@gmail.com
 [alias]
   co = checkout
-  st = status
+  s = status -sb
 	g = grep --break --heading --line-number
+	lg = log --oneline --decorate --all --graph
