@@ -21,7 +21,6 @@ syntax enable
 set t_Co=256              " Set 256 colours
 
 let g:presenting_mode = 0
-
 if g:presenting_mode ==1
   colorscheme pyte
   " set background=light
@@ -30,6 +29,7 @@ else
   set colorcolumn=80        " Add bar at 80 chars wide
   highlight ColorColumn ctermbg=black
   highlight TabLineFill ctermfg=black
+  highlight Directory ctermfg=white 
 endif
 
 set backspace=2           " Delete key works to beginning of line
@@ -62,12 +62,10 @@ set directory=~/.vim/tmp  " Store swps in same dir
 " Netrw
 let g:netrw_banner = 0 " Dont show banner
 let g:netrw_liststyle=0
+let NERDTreeMinimalUI=1
 
 "map leader to , and \
 map , \
-
-" TODO
-" tmux send-keys -t:3 'ls' Enter; tmux select-window -t:3
 
 " Insert Mode Mappings
 imap § <ESC>
@@ -114,10 +112,6 @@ command! LatexCompile :call ExecCmd("pdflatex " . @%)<CR>
 nmap <F7> :! ruby app.rb<CR>
 
 
-" All modes
-map <F12> :call ToggleMouseMode()<CR>
-
-
 " Save the current open windows
 command! SaveSession mksession! ~/.vim/vim_session
 
@@ -141,15 +135,12 @@ endfunction
 function! RunTest(command)
   let g:command = (system("pgrep zeus") != '') ? "zeus " : "bundle exec "
 
-  if filereadable("./bin/rspec")
-    let g:command = "./bin/"
-  endif
-
   let g:command .= 'rspec  ' . a:command
   call ExecCmd(g:command)
 endfunction
 
 function! GitBlame()
+<<<<<<< HEAD
   let l:total_lines = line('$')
   let l:current_line = line('.')
 
@@ -166,6 +157,9 @@ function! GitBlame()
   endif
 
   let l:command = "git blame " . @% .  l:lines
+  let l:p = max([(-3 + line('.')),1])
+  let l:n = min([(3 + line('.')), line('$')])
+  let l:command = "git blame " . @% . " -w -L " . l:p . "," . l:n
   echo system(l:command)
 endfunction
 
@@ -187,11 +181,6 @@ command! -nargs=* Taback :call Taback(<q-args>)
 function! Taback(params)
   tabnew
   call Ack(a:params)
-endfunction
-
-function! ToggleMouseMode()
-  let &mouse=(&mouse == "a"?"":"a")
-  echo (&mouse == 'a') ? "MouseMode On" : "MouseMode Off"
 endfunction
 
 command! RenameFile :call RenameFile()
