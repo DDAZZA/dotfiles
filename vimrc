@@ -221,6 +221,7 @@ function! FindFile(str)
 
   cgete system(l:command)
   cope
+  let g:quickfix_is_open = 0
 
   highlight MySearch ctermbg=darkgreen guibg=darkgreen
   execute 'match MySearch /\((' . l:ostr[0] . ' )@!.\)\{-}\zs' . l:ostr[0] . '/'
@@ -229,6 +230,21 @@ function! FindFile(str)
     call matchadd('MySearch', '\((' . l:ostr[c-1] . ')@!.\)\{-}' . l:ostr[c-1] . '.\{-}\zs' . l:ostr[c])
     let c += 1
   endwhile
+endfunction
+
+
+nmap <silent><leader>q :call ToggleQuickFix()<CR>
+let g:quickfix_is_open = 0
+function! ToggleQuickFix()
+  if g:quickfix_is_open
+    cclose
+    let g:quickfix_is_open = 0
+    execute g:quickfix_return_to_window . "wincmd w"
+  else
+    let g:quickfix_return_to_window = winnr()
+    copen
+    let g:quickfix_is_open = 1
+  endif
 endfunction
 
 " set foldexpr=RubyMethodFold(v:lnum)

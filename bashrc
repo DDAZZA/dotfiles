@@ -19,9 +19,9 @@ if [ -f ~/.git-completion.sh ]; then
 fi
 
 if [ -f ~/.git-prompt.sh ]; then
+  source ~/.git-prompt.sh
   export GIT_PS1_SHOWDIRTYSTATE=true
   export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01;33m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
-  source ~/.git-prompt.sh
 fi
 
 if [ -f ~/.bash_extra ]; then
