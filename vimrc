@@ -1,3 +1,22 @@
+set nocompatible 
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'tComment'
+Plugin 'ack.vim'
+Plugin 'rails.vim'
+Plugin 'scrooloose/nerdtree'
+call vundle#end()            " required
+filetype plugin indent on
+
+
+
+
+
+
+
+
 let g:ruby_path = system('echo $HOME/.rbenv/shims') " speeds up viewing ruby code (apparently)
 
 if has("autocmd")
