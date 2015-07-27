@@ -1,27 +1,17 @@
-set nocompatible 
+set nocompatible
 filetype off
-
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
 Plugin 'tComment'
 Plugin 'ack.vim'
 Plugin 'rails.vim'
 Plugin 'scrooloose/nerdtree'
-call vundle#end()            " required
+Plugin 'fatih/vim-go'
+call vundle#end()
 filetype plugin indent on
 
-
-
-
-
-
-
-
-let g:ruby_path = system('echo $HOME/.rbenv/shims') " speeds up viewing ruby code (apparently)
-
 if has("autocmd")
-  filetype plugin indent on
-
   autocmd!
   autocmd Filetype gitcommit setlocal spell textwidth=72
   autocmd Filetype Gemfile setfiletype ruby
@@ -29,7 +19,6 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.ui set filetype=ruby
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown spell textwidth=80
   autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
-
   autocmd BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
 endif
 
@@ -49,7 +38,7 @@ else
   set colorcolumn=120        " Add bar at 80 chars wide
   highlight ColorColumn ctermbg=black
   highlight TabLineFill ctermfg=black
-  highlight Directory ctermfg=white
+  highlight Directory ctermfg=green
 endif
 
 set backspace=2           " Delete key works to beginning of line
