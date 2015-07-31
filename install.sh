@@ -3,6 +3,10 @@
 # .install.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
+command -v wget >/dev/null 2>&1 || { echo >&2 "wget not installed.  Aborting."; exit 1; }
+command -v tmux >/dev/null 2>&1 || { echo >&2 "tmux not installed.  Aborting."; exit 1; }
+command -v vim >/dev/null 2>&1 || { echo >&2 "vim not installed.  Aborting."; exit 1; }
+
 set -o nounset
 readonly DIR=$PWD                                                               # dotfiles directory
 readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y%m%d_%H%M%S')                      # old dotfiles backup directory
@@ -33,4 +37,5 @@ if [ ! -f ~/.git-prompt.sh ]; then
   wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -O ~/.git-prompt.sh
 fi
 
+vim +PluginInstall +qall
 source ~/.bashrc
