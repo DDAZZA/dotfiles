@@ -30,7 +30,7 @@ else
   set colorcolumn=120        " Add bar at 80 chars wide
   highlight ColorColumn ctermbg=black
   highlight TabLineFill ctermfg=black
-  highlight Directory ctermfg=white
+  highlight Directory ctermfg=green
 endif
 
 set backspace=2           " Delete key works to beginning of line
@@ -78,6 +78,9 @@ cnoremap <C-A> <Home>
 " Normal Mode Mappings
 
 nmap <S-k> :!<CR>
+
+" :tn[tabnew]
+ca tn tabnew
 
 " Be consistant with D,C,S keys
 nnoremap Y y$

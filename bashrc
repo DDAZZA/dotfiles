@@ -26,3 +26,7 @@ fi
 if [ -f ~/.bash_extra ]; then
   source ~/.bash_extra # extra configuration for specific computer
 fi
+
+if [ -f /usr/local/go/bin/go ]; then
+  export PATH=$PATH:/usr/local/go/bin
+fi
