@@ -3,6 +3,7 @@
 # .install.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
 ############################
+
 set -o nounset
 readonly DIR=$PWD                                                               # dotfiles directory
 readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y%m%d_%H%M%S')                      # old dotfiles backup directory
@@ -17,7 +18,7 @@ for file in $FILES; do
     rm $file
   fi
 
-  if [ -f "$file" ]; then
+  if [ -f "~/.$file" ]; then
     mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
   fi
 
@@ -32,5 +33,3 @@ fi
 if [ ! -f ~/.git-prompt.sh ]; then
   wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -O ~/.git-prompt.sh
 fi
-
-source ~/.bashrc
