@@ -14,11 +14,11 @@ cd $DIR
 
 # move existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $FILES; do
-  if [ -L "~/.$file" ]; then
+  if [ -L ~/.$file ]; then
     rm ~/.$file
   fi
 
-  if [ -e "~/.$file" ]; then
+  if [ -e ~/.$file ]; then
     mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
   fi
 
