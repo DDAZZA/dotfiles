@@ -19,3 +19,5 @@
   prune = true
 [advice]
   statusHints = false
+[versionsort]
+  prereleaseSuffix = .rc
