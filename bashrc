@@ -1,10 +1,8 @@
 export MYSQL_PS1="\u@\h [\d]> "
-
 export EDITOR='vim'
 
 alias be='bundle exec'
 alias gsl='clear; git status -sb'
-alias ll='ls -al'
 alias tmux='tmux -2'
 alias bye='pkill -1 sshd'
 alias git-tmux='tmux new -s $(basename $(pwd))'
@@ -13,8 +11,6 @@ alias git-tmux='tmux new -s $(basename $(pwd))'
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias docker_rmi='docker rmi -f $(docker images -q -a -f dangling=true)' # Removes all untagged images
 alias docker_rma='docker rm $(docker ps -a -q)'    # Remove all containers
-
-
 
 if [ -f ~/.git-completion.sh ]; then
   source ~/.git-completion.sh
@@ -30,6 +26,6 @@ if [ -f ~/.bash_extra ]; then
   source ~/.bash_extra # extra configuration for specific computer
 fi
 
-if [ -f /usr/local/go/bin/go ]; then
-  export PATH=$PATH:/usr/local/go/bin
-fi
+function gorun {
+  docker run --rm -it -e GOBIN=/go/bin -v `pwd`:/go golang go $*
+}
