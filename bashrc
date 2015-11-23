@@ -7,9 +7,12 @@ alias gsl='clear; git status -sb'
 alias ll='ls -al'
 alias tmux='tmux -2'
 alias bye='pkill -1 sshd'
+alias git-tmux='tmux new -s $(basename $(pwd))'
 
 # alias myip='curl ifconfig.me' # get my ip
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias docker_rmi='docker rmi -f $(docker images -q -a -f dangling=true)' # Removes all untagged images
+alias docker_rma='docker rm $(docker ps -a -q)'    # Remove all containers
 
 
 
