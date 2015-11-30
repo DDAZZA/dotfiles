@@ -87,6 +87,9 @@ cnoremap <C-A> <Home>
 
 nmap <S-k> :!<CR>
 
+" :tn[tabnew]
+ca tn tabnew
+
 " Be consistant with D,C,S keys
 nnoremap Y y$
 nmap <leader>b :call InsertDebugger()<CR>
@@ -191,7 +194,7 @@ command! -nargs=* FF :call FindFile(<q-args>)
 function! FindFile(str)
   let l:ostr = split(a:str)
   let l:str = split(a:str)
-  call map(l:str, '".*\\+" . v:val . ""')
+  call map(l:str, '".*" . v:val . ""')
   call add(l:str, '.*')
   let l:regex = join(l:str,'')
 

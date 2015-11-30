@@ -8,20 +8,20 @@ command -v tmux >/dev/null 2>&1 || { echo >&2 "tmux not installed.  Aborting."; 
 command -v vim >/dev/null 2>&1 || { echo >&2 "vim not installed.  Aborting."; exit 1; }
 
 set -o nounset
-readonly DIR=$PWD                                                               # dotfiles directory
+readonly DIR=~/.dotfiles                                                             # dotfiles directory
 readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y%m%d_%H%M%S')                      # old dotfiles backup directory
-readonly FILES="bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec"     # list of files/folders to symlink in homedir
+readonly FILES="bash_profile bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec"     # list of files/folders to symlink in homedir
 
 # change to the dotfiles directory
 cd $DIR
 
 # move existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $FILES; do
-  if [ -L "$file" ]; then
-    rm $file
+  if [ -L ~/.$file ]; then
+    rm ~/.$file
   fi
 
-  if [ -f "$file" ]; then
+  if [ -e ~/.$file ]; then
     mkdir -p $BACKUP_DIR/ && mv ~/.$file $BACKUP_DIR/$file
   fi
 
