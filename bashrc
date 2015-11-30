@@ -27,5 +27,9 @@ if [ -f ~/.bash_extra ]; then
 fi
 
 function gorun {
-  docker run --rm -it -e GOBIN=/go/bin -v `pwd`:/go golang go $*
+  docker run --rm -it \
+    -P -p 8080:8080 \
+    -e GOBIN=/go/bin \
+    -v `pwd`:/go golang \
+    go $*
 }
