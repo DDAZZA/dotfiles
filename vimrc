@@ -1,3 +1,4 @@
+set nocompatible
 let g:ruby_path = system('echo $HOME/.rbenv/shims') " speeds up viewing ruby code (apparently)
 
 if has("autocmd")
@@ -21,6 +22,7 @@ syntax enable
 set t_Co=256              " Set 256 colours
 
 let g:presenting_mode = 0
+
 if g:presenting_mode ==1
   colorscheme pyte
   set background=light

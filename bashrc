@@ -10,11 +10,13 @@ alias git-tmux='tmux new -s $(basename $(pwd))'
 # alias myip='curl ifconfig.me' # get my ip
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias docker_rmi='docker rmi -f $(docker images -q -a -f dangling=true)' # Removes all untagged images
-alias docker_rma='docker rm $(docker ps -a -q)'    # Remove all containers
+alias docker_rmc='docker rm $(docker ps -a -q)'    # Remove all containers
 
 if [ -f ~/.git-completion.sh ]; then
   source ~/.git-completion.sh
 fi
+
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;00m\] \$ '
 
 if [ -f ~/.git-prompt.sh ]; then
   source ~/.git-prompt.sh
@@ -32,4 +34,9 @@ function gorun {
     -e GOBIN=/go/bin \
     -v `pwd`:/go golang \
     go $*
+}
+
+function aws_refresh_ecr_token() {
+  echo 'aws ecr get-login'
+  aws ecr get-login
 }
