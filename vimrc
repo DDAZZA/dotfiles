@@ -61,6 +61,10 @@ set timeoutlen=500        " Time to wait for second key press
 set backupdir=~/.vim/tmp  " Store backups in same dir
 set directory=~/.vim/tmp  " Store swps in same dir
 
+" disable backups
+set nobackup
+set nowritebackup
+
 
 " Netrw
 let g:netrw_banner = 0 " Dont show banner
@@ -195,8 +199,8 @@ function! FindFile(str)
   let l:command = "for i in `git ls-files -z | xargs -0 ls  -t | grep '" . l:regex . "'`; do echo $i':1: '; done;"
   " let l:command = 'git ls-files | awk '{printf "%s:1\n", $1}' '
 
-  cgete system(l:command)
-  cope
+  lgetexpr system(l:command)
+  lopen
   let g:quickfix_is_open = 0
 
   highlight MySearch ctermbg=darkgreen guibg=darkgreen
@@ -208,6 +212,8 @@ function! FindFile(str)
   endwhile
 endfunction
 
+" close quickfix on selection
+autocmd FileType qf nmap <buffer> <cr> <cr>:lcl<cr>
 
 nmap <silent><leader>q :call ToggleQuickFix()<CR>
 let g:quickfix_is_open = 0

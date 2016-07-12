@@ -5,12 +5,13 @@ alias be='bundle exec'
 alias gsl='clear; git status -sb'
 alias tmux='tmux -2'
 alias bye='pkill -1 sshd'
-alias git-tmux='tmux new -s $(basename $(pwd))'
+alias tmux-git='tmux new -s $(basename $(pwd))'
 
 # alias myip='curl ifconfig.me' # get my ip
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias docker_rmi='docker rmi -f $(docker images -q -a -f dangling=true)' # Removes all untagged images
 alias docker_rmc='docker rm $(docker ps -a -q)'    # Remove all containers
+alias docker_rmv='docker volume rm $(docker volume ls -q )' # Remove used volumes
 
 if [ -f ~/.git-completion.sh ]; then
   source ~/.git-completion.sh
@@ -37,6 +38,10 @@ function gorun {
 }
 
 function aws_refresh_ecr_token() {
-  echo 'aws ecr get-login'
-  aws ecr get-login
+  echo 'aws ecr get-login --region us-east-1'
+  aws ecr get-login --region us-east-1
+  echo ''
+
+  echo 'aws ecr get-login --region eu-west-1'
+  aws ecr get-login --region eu-west-1
 }
