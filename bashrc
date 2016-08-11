@@ -12,6 +12,7 @@ alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias docker_rmi='docker rmi -f $(docker images -q -a -f dangling=true)' # Removes all untagged images
 alias docker_rmc='docker rm $(docker ps -a -q)'    # Remove all containers
 alias docker_rmv='docker volume rm $(docker volume ls -q )' # Remove used volumes
+alias docker_rma='docker_rmi; docker_rmc; docker_rmv;' # Remove all
 
 if [ -f ~/.git-completion.sh ]; then
   source ~/.git-completion.sh
@@ -38,10 +39,16 @@ function gorun {
 }
 
 function aws_refresh_ecr_token() {
-  echo 'aws ecr get-login --region us-east-1'
-  aws ecr get-login --region us-east-1
-  echo ''
+  # e.g. eu-west-1, us-east-1
+  region=${1:-eu-west-1}
 
-  echo 'aws ecr get-login --region eu-west-1'
-  aws ecr get-login --region eu-west-1
+  echo "aws ecr get-login --region $region"
+  login=`aws ecr get-login --region $region`
+
+  read -p "$login ? [y/N]" -n 1 -r
+  echo    # (optional) move to a new line
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    eval $login
+  fi
 }
