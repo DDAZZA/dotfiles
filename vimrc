@@ -1,6 +1,3 @@
-set nocompatible
-let g:ruby_path = system('echo $HOME/.rbenv/shims') " speeds up viewing ruby code (apparently)
-
 if has("autocmd")
   filetype plugin indent on
 
@@ -20,6 +17,8 @@ set listchars=tab:>-,trail:%,extends:>
 
 syntax enable
 set t_Co=256              " Set 256 colours
+" set termguicolors
+
 
 let g:presenting_mode = 0
 
@@ -30,9 +29,8 @@ else
   set background=dark
   colorscheme wombat256mod
   set colorcolumn=120        " Add bar at 80 chars wide
-  highlight ColorColumn ctermbg=black
-  highlight TabLineFill ctermfg=black
-  highlight Directory ctermfg=green
+  highlight ColorColumn guibg=black ctermbg=black
+  highlight TabLineFill guibg=black ctermfg=black
 endif
 
 set backspace=2           " Delete key works to beginning of line
@@ -243,3 +241,4 @@ endfunction
 "
 "   return 0
 " endfunction
+

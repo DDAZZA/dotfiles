@@ -5,13 +5,14 @@ alias be='bundle exec'
 alias gsl='clear; git status -sb'
 alias tmux='tmux -2'
 alias bye='pkill -1 sshd'
-alias tmux-git='tmux new -s $(basename $(pwd))'
-
+alias tmux-git='tmux -2 new -s $(basename $(pwd))'
 # alias myip='curl ifconfig.me' # get my ip
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias docker_rmi='docker rmi -f $(docker images -q -a -f dangling=true)' # Removes all untagged images
 alias docker_rmc='docker rm $(docker ps -a -q)'    # Remove all containers
 alias docker_rmv='docker volume rm $(docker volume ls -q )' # Remove used volumes
+alias docker_rmn='docker network rm $(docker network ls -q )' # Remove used volumes
+alias docker_stats='docker stats $(docker ps --format={{.Names}})'
 alias docker_rma='docker_rmi; docker_rmc; docker_rmv;' # Remove all
 
 if [ -f ~/.git-completion.sh ]; then
@@ -39,11 +40,8 @@ function gorun {
 }
 
 function aws_refresh_ecr_token() {
-  # e.g. eu-west-1, us-east-1
-  region=${1:-eu-west-1}
-
-  echo "aws ecr get-login --region $region"
-  login=`aws ecr get-login --region $region`
+  echo "aws ecr get-login"
+  login=`aws ecr get-login $@`
 
   read -p "$login ? [y/N]" -n 1 -r
   echo    # (optional) move to a new line
