@@ -104,6 +104,8 @@ nmap <silent><leader>gb :call GitBlame()<CR>
 " Show git status
 nmap <silent><leader>gs :echo system("git status")<CR>
 
+nmap <C-p> :FindFile 
+
 " Run test on the whole file
 nmap <silent><leader>tf :call RunTest(' -- '. @%)<CR>
 
@@ -211,7 +213,7 @@ function! FindFile(str)
 endfunction
 
 " close quickfix on selection
-autocmd FileType qf nmap <buffer> <cr> <cr>:lcl<cr>
+autocmd FileType qf nmap <silent><buffer> <cr> <cr>:lcl<cr>
 
 nmap <silent><leader>q :call ToggleQuickFix()<CR>
 let g:quickfix_is_open = 0
