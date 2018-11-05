@@ -26,31 +26,19 @@ if [ -f ~/.git-prompt.sh ]; then
   export GIT_PS1_SHOWDIRTYSTATE=true
   export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01;33m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 fi
-
+#
 if [ -f ~/.bash_extra ]; then
   source ~/.bash_extra # extra configuration for specific computer
 fi
 
-function gorun {
-  docker run --rm -it \
-    -P -p 8080:8080 \
-    -e GOBIN=/go/bin \
-    -v `pwd`:/go golang \
-    go $*
-}
+# function gorun {
+#   docker run --rm -it \
+#     -P -p 8080:8080 \
+#     -e GOBIN=/go/bin \
+#     -v `pwd`:/go golang \
+#     go $*
+# }
 
-function aws_refresh_ecr_token() {
-  echo "aws ecr get-login"
-  login=`aws ecr get-login $@`
-
-  read -p "$login ? [y/N]" -n 1 -r
-  echo    # (optional) move to a new line
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    eval $login
-  fi
-}
-
-function setup_remote_dotfiles(){
-  docker exec -it $1 bash -c "git clone https://github.com/DDAZZA/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh; source ~/.bash_profile"
-}
+# function setup_remote_dotfiles(){
+#   docker exec -it $1 bash -c "git clone https://github.com/DDAZZA/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh; source ~/.bash_profile"
+# }

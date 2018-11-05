@@ -88,7 +88,6 @@ ca tn tabnew
 
 " Be consistant with D,C,S keys
 nnoremap Y y$
-nmap <leader>b :call InsertDebugger()<CR>
 nmap <leader>dd :call InsertDebugger()<CR>
 " nmap <leader>< :norm ggVGg?<CR>
 " nmap <leader>def :Ack "def \\|private" <C-r>%<CR>
