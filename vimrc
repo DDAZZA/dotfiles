@@ -8,6 +8,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.ui set filetype=ruby
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown spell textwidth=80
   autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
+  autocmd BufNewFile,BufRead Dockerfile* setlocal filetype=dockerfile
 
   autocmd BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
 endif
