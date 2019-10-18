@@ -1,5 +1,8 @@
 {
     "target":{
+        "scope":{
+            "advanced_mode":true
+        },
         "filter":{
             "by_file_extension":{
                 "hide_items":[
