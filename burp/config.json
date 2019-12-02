@@ -105,5 +105,13 @@
             "client_to_server_messages":false,
             "server_to_client_messages":false
         }
+    },
+    "user_options":{
+        "display":{
+            "user_interface":{
+                "font_size":11,
+                "look_and_feel":"Darcula"
+            }
+        }
     }
 }
