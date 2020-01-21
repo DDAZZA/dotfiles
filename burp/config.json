@@ -114,6 +114,12 @@
     "user_options":{
       "misc":{
         "out_of_scope_history_logging_action":"disable"
+      },
+      "display":{
+        "user_interface":{
+          "font_size":11,
+          "look_and_feel":"Darcula"
+        }
       }
     }
 }
