@@ -18,10 +18,15 @@
         }
     },
     "proxy":{
+        "web_sockets_history_display_filter":{
+            "by_request_type":{
+                "show_only_in_scope_items":true
+            }
+        },
         "miscellaneous":{
             "disable_logging_to_history_and_site_map":false,
             "disable_out_of_scope_logging_to_history_and_site_map":false,
-            "disable_web_interface":true,
+            "disable_web_interface":false,
             "remove_unsupported_encodings_from_accept_encoding_headers_in_incoming_requests":true,
             "set_connection_close_header_on_requests":true,
             "set_connection_close_header_on_responses":false,
@@ -105,5 +110,10 @@
             "client_to_server_messages":false,
             "server_to_client_messages":false
         }
+    },
+    "user_options":{
+      "misc":{
+        "out_of_scope_history_logging_action":"disable"
+      }
     }
 }
