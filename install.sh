@@ -7,7 +7,7 @@
 set -o nounset
 readonly DIR=~/.dotfiles                                                             # dotfiles directory
 readonly BACKUP_DIR=~/dotfiles_old/$(date '+%Y%m%d_%H%M%S')                      # old dotfiles backup directory
-readonly FILES="bash_profile bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec"     # list of files/folders to symlink in homedir
+readonly FILES="bash_profile bashrc vimrc vim tmux.conf gitconfig gitignore gemrc rspec bin"     # list of files/folders to symlink in homedir
 
 # change to the dotfiles directory
 cd $DIR

@@ -1,0 +1,66 @@
+#!/bin/bash
+# Generates tempory AWS credentals that expire
+
+# Usage:
+#   $ aws-create-session-for ExampleProfile
+#
+# Required:
+#   Append config to AWS config file
+#
+#   e.g.  # ~/.aws/config
+#         [ExampleProfile]
+#         mfa_serial = arn:aws:iam::522114923602:mfa/NameOfIAMUser
+#         access_key_id = AKIAIOSFODNN7EXAMPLE
+#         ...
+#
+################################################################################
+# CONFIG
+
+AWS_CREDENTIALS_FILE=${VARIABLE:-~/.aws/credentials}
+DURATION=${VARIABLE:-129600} # 36 hours
+
+################################################################################
+
+set -ue
+
+profile=$1
+[[ -z "$profile" ]] && { echo "Error: Missing Profile " ; exit 1; }
+
+serial_number=$(aws --profile $profile configure get mfa_serial)
+# TODO raise error if missing
+
+export AWS_ACCESS_KEY_ID=$(aws --profile $profile configure get access_key_id)
+# TODO raise error if missing
+
+
+echo -n "Enter AWS Secret Key ($AWS_ACCESS_KEY_ID): "
+read -s aws_secret
+[[ -z "$aws_secret" ]] && { echo && echo "Error: Input Missing " ; exit 1; }
+echo  "****"
+export AWS_SECRET_ACCESS_KEY=$aws_secret
+
+echo -n "Enter MFA code: "
+read mfa_code
+
+
+
+# Run AWS Token Command
+value=$(aws --profile '' sts get-session-token --serial-number $serial_number --duration-seconds $DURATION --token-code $mfa_code | jq .Credentials)
+# TODO raise error if failed
+
+
+
+access_key_id=$(echo $value | jq -r .AccessKeyId)
+aws --profile $profile configure set aws_access_key_id $access_key_id
+
+secret_access_key=$(echo $value | jq -r .SecretAccessKey)
+aws --profile $profile configure set aws_secret_access_key $secret_access_key
+
+session_token=$(echo $value | jq -r .SessionToken)
+aws --profile $profile configure set aws_session_token $session_token
+
+expires_at=$(echo $value | jq -r .Expiration)
+
+aws --profile $profile sts get-caller-identity
+
+echo "Success (Expires at $expires_at)"
