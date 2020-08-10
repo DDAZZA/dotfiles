@@ -21,17 +21,17 @@ DURATION=${VARIABLE:-129600} # 36 hours
 
 ################################################################################
 
-set -e
 
 [[ -z "$1" ]] && { echo "Error: Missing argument 'profile' " && echo && echo "Usage: $ $0 <profile>"; echo; echo "Available profiles:" &&  aws configure list-profiles; exit 1; }
 profile=$1
 
-set -u
-
 serial_number=$(aws --profile $profile configure get mfa_serial)
 # TODO raise error if missing
 
-export AWS_ACCESS_KEY_ID=$(aws --profile $profile configure get access_key_id)
+set -e
+
+key=$(aws --profile $profile configure get access_key_id)
+export AWS_ACCESS_KEY_ID=$key
 # TODO raise error if missing
 
 echo -n "Enter AWS Secret Key ($AWS_ACCESS_KEY_ID): "
@@ -40,15 +40,21 @@ read -s aws_secret
 echo  "****"
 export AWS_SECRET_ACCESS_KEY=$aws_secret
 
-echo -n "Enter MFA code: "
-read mfa_code
 
 
-
-echo "Attempting to create new AWS session for $profile..."
 # Run AWS Token Command
-value=$(aws --profile '' sts get-session-token --serial-number $serial_number --duration-seconds $DURATION --token-code $mfa_code | jq .Credentials)
 # TODO raise error if failed
+if [[ -z $serial_number ]];
+then
+  echo "Attempting to create new AWS session for '$profile' profile..."
+  value=$(aws --output=json --profile '' sts get-session-token --duration-seconds $DURATION | jq .Credentials)
+else
+  echo -n "Enter MFA code: "
+  read mfa_code
+
+  echo "Attempting to create new AWS session for '$profile' profile..."
+  value=$(aws --output=json --profile '' sts get-session-token --serial-number $serial_number --duration-seconds $DURATION --token-code $mfa_code | jq .Credentials)
+fi
 
 
 
