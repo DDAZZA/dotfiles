@@ -2,7 +2,7 @@
 # Generates tempory AWS credentals that expire
 
 # Usage:
-#   $ aws-create-session-for ExampleProfile
+#   $ aws-session-for ExampleProfile
 #
 # Required:
 #   Append config to AWS config file
@@ -21,17 +21,18 @@ DURATION=${VARIABLE:-129600} # 36 hours
 
 ################################################################################
 
-set -ue
+set -e
 
+[[ -z "$1" ]] && { echo "Error: Missing argument 'profile' " && echo && echo "Usage: $ $0 <profile>"; echo; echo "Available profiles:" &&  aws configure list-profiles; exit 1; }
 profile=$1
-[[ -z "$profile" ]] && { echo "Error: Missing Profile " ; exit 1; }
+
+set -u
 
 serial_number=$(aws --profile $profile configure get mfa_serial)
 # TODO raise error if missing
 
 export AWS_ACCESS_KEY_ID=$(aws --profile $profile configure get access_key_id)
 # TODO raise error if missing
-
 
 echo -n "Enter AWS Secret Key ($AWS_ACCESS_KEY_ID): "
 read -s aws_secret
@@ -44,6 +45,7 @@ read mfa_code
 
 
 
+echo "Attempting to create new AWS session for $profile..."
 # Run AWS Token Command
 value=$(aws --profile '' sts get-session-token --serial-number $serial_number --duration-seconds $DURATION --token-code $mfa_code | jq .Credentials)
 # TODO raise error if failed
@@ -61,6 +63,6 @@ aws --profile $profile configure set aws_session_token $session_token
 
 expires_at=$(echo $value | jq -r .Expiration)
 
-aws --profile $profile sts get-caller-identity
+# aws --profile $profile sts get-caller-identity
 
 echo "Success (Expires at $expires_at)"
