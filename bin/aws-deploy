@@ -1,0 +1,84 @@
+#!/bin/bash
+# Deploys/Destroys remote AWS EC2 server
+
+# Usage:
+#   $ aws-stack ExampleProfile
+#
+# Required:
+#   AWS credentials
+#
+################################################################################
+# CONFIG
+STACK_NAME=${VARIABLE:-kali-stack}
+DEFAULT_KEYNAME=id_rsa
+REMOTE_TEMPLATE=${VARIABLE:-"https://blue-steel.s3-eu-west-1.amazonaws.com/kali.yml"}
+PROFILE=${VARIABLE:-personal}
+################################################################################
+
+function start_server {
+  if [[ -z $KEYNAME ]]; then # skip if set as an envionment variable
+    read -p "Enter SSH KeyName ($DEFAULT_KEYNAME): " keyname
+    if [[ -n "$keyname" ]]; then
+      export KEYNAME="$keyname"
+    else
+      export KEYNAME="$DEFAULT_KEYNAME"
+    fi
+  fi
+
+  read -p "Enter Template URL ($REMOTE_TEMPLATE): " template
+  [[ -n "$template" ]] && { export REMOTE_TEMPLATE="$template"; }
+
+  echo
+
+  echo "$ wget -nv $REMOTE_TEMPLATE -O /tmp/cf-template.yml"
+  echo "$ aws --profile $PROFILE cloudformation deploy  --template /tmp/cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME"
+  read -sp "Press any key to continue" -n 1 -r
+  echo
+  wget -nv $REMOTE_TEMPLATE -O /tmp/cf-template.yml
+  aws --profile $PROFILE cloudformation deploy  --template /tmp/cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME
+  rm /tmp/cf-template.yml
+}
+
+
+case "$1" in
+  up)
+    start_server
+    ;;
+
+  down)
+    echo "$ aws --profile $PROFILE cloudformation delete-stack --stack-name $STACK_NAME"
+    read -sp "Press any key to continue" -n 1 -r
+    echo
+    echo
+    if [[ $REPLY =~ ^[Nn]$ ]]
+    then
+      exit 0
+    fi
+    aws --profile $PROFILE cloudformation delete-stack --stack-name $STACK_NAME
+    ;;
+
+  status)
+    aws --profile $PROFILE cloudformation list-stacks 
+    # aws --profile $PROFILE cloudformation describe-stacks --stack-name $STACK_NAME | jq '.Stacks[0]'
+    ;;
+
+  connect)
+    IDENTITY_FILE="~/.ssh/$DEFAULT_KEYNAME.pem"
+    read -p "Enter Identity File ($IDENTITY_FILE): " identity_file
+    [[ -n "$identity_file" ]] && { export IDENTITY_FILE="$identity_file"; }
+
+    RHOST=$(aws --profile $PROFILE cloudformation describe-stacks --stack-name $STACK_NAME | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="InstanceIPAddress") | .OutputValue')
+
+    echo "ssh -i $IDENTITY_FILE ec2-user@$RHOST"
+    read -sp "Press any key to continue" -n 1 -r
+    echo
+
+    ssh -i $IDENTITY_FILE ec2-user@$RHOST
+    ;;
+
+  *)
+    echo "Error: Invalid argument"
+    echo $"Usage: $ $0 [up|down|status|connect]"
+    exit 1
+
+  esac
