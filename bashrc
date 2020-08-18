@@ -20,6 +20,11 @@ if [ -f ~/.git-completion.sh ]; then
   source ~/.git-completion.sh
 fi
 
+if [ -f ~/.bash_functions ]; then
+  # echo 'Loading ~/.bash_functions'
+  source ~/.bash_functions
+fi
+
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;00m\] \$ '
 
 if [ -f ~/.git-prompt.sh ]; then
@@ -27,18 +32,11 @@ if [ -f ~/.git-prompt.sh ]; then
   export GIT_PS1_SHOWDIRTYSTATE=true
   export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01;33m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 fi
-#
+
 if [ -f ~/.bash_extra ]; then
+  # echo 'Loading ~/.bash_extra'
   source ~/.bash_extra # extra configuration for specific computer
 fi
-
-# function gorun {
-#   docker run --rm -it \
-#     -P -p 8080:8080 \
-#     -e GOBIN=/go/bin \
-#     -v `pwd`:/go golang \
-#     go $*
-# }
 
 # function setup_remote_dotfiles(){
 #   docker exec -it $1 bash -c "git clone https://github.com/DDAZZA/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh; source ~/.bash_profile"
