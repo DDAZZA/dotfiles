@@ -22,7 +22,7 @@ DURATION=${VARIABLE:-129600} # 36 hours
 ################################################################################
 
 
-[[ -z "$1" ]] && { echo "Error: Missing argument 'profile' " && echo && echo "Usage: $ $0 <profile>"; echo; echo "Available profiles:" &&  aws configure list-profiles; exit 1; }
+[[ -z "$1" ]] && { echo "Error: Missing argument 'profile' " && echo && echo "Usage: $ `basename $0` [profile]"; echo; echo "Available profiles:" &&  aws configure list-profiles; exit 1; }
 profile=$1
 
 serial_number=$(aws --profile $profile configure get mfa_serial)
