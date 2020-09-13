@@ -7,6 +7,7 @@ if has("autocmd")
   autocmd Filetype Fudgefile setfiletype ruby
   autocmd BufRead,BufNewFile *.ui set filetype=ruby
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown spell textwidth=80
+  autocmd BufNewFile,BufRead *.tex setlocal spell 
   autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
   autocmd BufNewFile,BufRead .bash_* setlocal filetype=bash
   autocmd BufNewFile,BufRead Dockerfile* setlocal filetype=dockerfile

@@ -7,6 +7,15 @@ then
   export -f aws
 fi
 
+if ! command -v pdflatex &> /dev/null
+then
+  function pdflatex {
+    docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` fbenz/pdflatex pdflatex -output-directory /data/ /data/$*
+  }
+
+  export -f pdflatex
+fi
+
 
 # function gorun {
 #   docker run --rm -it \
@@ -41,3 +50,22 @@ function host_static_page {
   container_id=$(docker run -p $port:80 -v $(pwd):/usr/share/nginx/html:ro -d nginx)
   docker logs $container_id
 }
+
+function jekyll {
+  export JEKYLL_VERSION=3.8
+  docker run --rm \
+    --volume="$PWD:/srv/jekyll" \
+    -p 4000:4000 \
+    -it jekyll/jekyll:$JEKYLL_VERSION \
+    jekyll $*
+}
+
+function jekyll_builder {
+  export JEKYLL_VERSION=3.8
+  docker run --rm \
+    --volume="$PWD:/srv/jekyll" \
+    -it jekyll/builder:$JEKYLL_VERSION \
+    jekyll build
+  }
+
+

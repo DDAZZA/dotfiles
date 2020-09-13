@@ -33,8 +33,8 @@ function start_server {
   echo "$ aws --profile $AWS_PROFILE cloudformation deploy  --template /tmp/cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME"
   read -sp "Press any key to execute" -n 1 -r
   echo
-  wget -nv $REMOTE_TEMPLATE -O /tmp/cf-template.yml
-  aws --profile $AWS_PROFILE cloudformation deploy  --template /tmp/cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME
+  wget -nv $REMOTE_TEMPLATE -O ./cf-template.yml
+  aws --profile $AWS_PROFILE cloudformation deploy  --template ./cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME
   rm /tmp/cf-template.yml
 }
 
