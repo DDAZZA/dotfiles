@@ -1,4 +1,5 @@
 export PATH=~/.bin:$PATH
+export PATH="$HOME/.cargo/bin:$PATH"
 export MYSQL_PS1="\u@\h [\d]> "
 export EDITOR='vim'
 

@@ -1,3 +1,5 @@
+set nocompatible
+
 if has("autocmd")
   filetype plugin indent on
 
@@ -14,6 +16,7 @@ if has("autocmd")
 
   autocmd BufWritePost .vimrc source ~/.vimrc " reload vim file when its saved
 endif
+
 
 set list
 set listchars=tab:>-,trail:%,extends:>
@@ -66,11 +69,15 @@ set directory=~/.vim/tmp  " Store swps in same dir
 set nobackup
 set nowritebackup
 
+let g:rustfmt_autosave = 1
+
 
 " Netrw
-let g:netrw_banner = 0 " Dont show banner
+let g:netrw_banner = 0
 let g:netrw_liststyle=0
+
 let NERDTreeMinimalUI=1
+
 
 "map leader to , and \
 map , \
@@ -245,4 +252,3 @@ endfunction
 "
 "   return 0
 " endfunction
-

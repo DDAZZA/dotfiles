@@ -34,7 +34,7 @@ function start_server {
   read -sp "Press any key to execute" -n 1 -r
   echo
   wget -nv $REMOTE_TEMPLATE -O ./cf-template.yml
-  aws --profile $AWS_PROFILE cloudformation deploy  --template ./cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME
+  aws --profile $AWS_PROFILE cloudformation deploy  --template /tmp/cf-template.yml --stack-name $STACK_NAME --parameter-overrides KeyName=$KEYNAME
   rm /tmp/cf-template.yml
 }
 
@@ -73,7 +73,7 @@ case "$1" in
 
   connect)
     IDENTITY_FILE="~/.ssh/$DEFAULT_KEYNAME"
-    read -p "Enter Identity File [$IDENTITY_FILE]: " identity_file
+    read -e -p "Enter Identity File [$IDENTITY_FILE]: " identity_file
     [[ -n "$identity_file" ]] && { export IDENTITY_FILE="$identity_file"; }
 
     set -e
