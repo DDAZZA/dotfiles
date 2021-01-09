@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ -z "${HOOK_URL}" ]]; then
+  echo 'Error: $HOOK_URL env var not defined'
+  exit 1
+fi
+
+CHANNEL=${VARIABLE:-osint}
+USERNAME=$(hostname)
+EMOJI=":ghost:"
+MSG=$*
+
+if [[ -z "${MSG}" ]]; then
+  MSG='(no message given)'
+fi
+
+PAYLOAD="payload={\"channel\": \"#$CHANNEL\", \"username\": \"$USERNAME\", \"text\": \"$MSG\", \"icon_emoji\": \"$EMOJI\"}"
+
+curl -X POST --data-urlencode "$PAYLOAD" "$HOOK_URL" && echo
