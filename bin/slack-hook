@@ -16,4 +16,4 @@ fi
 
 PAYLOAD="payload={\"channel\": \"#$CHANNEL\", \"username\": \"$USERNAME\", \"text\": \"$MSG\", \"icon_emoji\": \"$EMOJI\"}"
 
-curl -X POST --data-urlencode "$PAYLOAD" "$HOOK_URL" && echo
+curl --silent --output /dev/null --show-error --fail -X POST --data-urlencode "$PAYLOAD" "$HOOK_URL"
